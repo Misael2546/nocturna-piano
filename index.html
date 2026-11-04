@@ -1,51 +1,97 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PianoFlow - Aprende Piano Interactivo</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="manifest" href="manifest.webmanifest">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090b13">
+  <meta name="description" content="Academia de Piano: explorá repertorio y prepará tu sesión de práctica.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+  <title>NOCTURNA — Academia de Piano</title>
 </head>
 <body>
-    <header class="main-header">
-        <div class="logo">🎹 PianoFlow</div>
-        <nav class="nav-links">
-            <a href="index.html" class="active">Explorar</a>
-            <a href="academia.html">Academia</a>
-            <a href="tutoriales.html">Tutoriales</a>
-        </nav>
-        <div class="hardware-status">
-            <span id="midi-indicator" class="status-badge disconnected">MIDI: Off</span>
-            <span id="mic-indicator" class="status-badge disconnected">Mic: Off</span>
+<div class="orientation-gate" id="orientation-gate" role="dialog" aria-modal="true" aria-labelledby="orientation-title"><div class="orientation-card"><div class="rotate-symbol" aria-hidden="true">↻</div><p class="orientation-kicker">NOCTURNA · PIANO STUDIO</p><h2 id="orientation-title">Un pequeño giro para empezar</h2><p>Girá tu dispositivo a posición horizontal para disfrutar del teclado y la práctica interactiva.</p><span class="orientation-hint">La pantalla se adapta automáticamente</span></div></div>
+<a class="skip-link" href="#main">Ir al contenido</a>
+<div class="app-shell">
+  <header class="topbar">
+    <a class="brand" href="#explorar" aria-label="Nocturna, ir al inicio">
+      <span class="brand-mark" aria-hidden="true">♫</span>
+      <span>NOCTURNA<small>PIANO STUDIO</small></span>
+    </a>
+    <div class="topbar-right">
+      <div class="hardware-status" role="group" aria-label="Estado del hardware">
+        <span class="hardware-item" id="midi-status" role="status"><i class="status-dot" aria-hidden="true"></i><span>MIDI desconectado</span></span>
+        <span class="hardware-item" id="mic-status" role="status"><i class="status-dot" aria-hidden="true"></i><span>Micrófono inactivo</span></span>
+      </div>
+      <button class="profile" id="profile-button" type="button" aria-label="Ver progreso del perfil" aria-expanded="false" aria-controls="profile-panel">
+        <span class="avatar" aria-hidden="true">P</span><span class="profile-text">Mi estudio<small id="profile-progress">0 sesiones</small></span>
+        <span aria-hidden="true">⌄</span>
+      </button>
+    </div>
+    <div class="profile-panel" id="profile-panel" hidden>
+      <strong>Tu progreso</strong>
+      <p id="profile-detail">Todavía no comenzaste una sesión.</p>
+      <p class="muted">Fase 1: progreso de apertura de prácticas, no evaluación musical.</p>
+    </div>
+  </header>
+
+  <nav class="academy-nav" aria-label="Áreas de aprendizaje"><a class="nav-chip" href="./academia.html">📚 Academia interactiva</a><a class="nav-chip" href="./estudio-midi.html">🎹 Estudio MIDI</a><a class="nav-chip" href="./tutoriales.html">🎓 Tutoriales guiados</a></nav><main id="main">
+    <section class="explore-view" id="explorar" aria-labelledby="explore-title">
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">TU ESPACIO PARA CRECER</p>
+          <h1 id="explore-title">Cada nota, <em>un paso más.</em></h1>
+          <p>Explorá música, elegí tu desafío y prepará tu próxima práctica.</p>
+          <a href="#catalogo" class="button button-primary">Explorar repertorio <span aria-hidden="true">↗</span></a>
         </div>
-    </header>
+        <div class="hero-art" aria-hidden="true"><span>♩</span><span>♪</span><span>♫</span><div class="hero-keys"></div></div>
+      </div>
 
-    <main class="dashboard">
-        <section class="welcome-banner">
-            <h1>Tu camino para dominar el piano</h1>
-            <p>Elige una canción o curso y empieza a practicar interactivamente.</p>
-        </section>
+      <section class="catalog-section" id="catalogo" aria-labelledby="catalog-title">
+        <div class="section-head"><div><p class="eyebrow">BIBLIOTECA</p><h2 id="catalog-title">Encontrá tu próxima pieza</h2></div><span class="count" id="results-count" aria-live="polite"></span></div>
+        <div class="catalog-controls">
+          <label class="search"><span aria-hidden="true">⌕</span><span class="sr-only">Buscar por canción, autor o estilo</span><input id="song-search" type="search" placeholder="Buscar canción, artista o estilo…" autocomplete="off"></label>
+          <label class="difficulty-filter"><span class="sr-only">Filtrar por dificultad</span><select id="difficulty-filter"><option value="all">Todos los niveles</option><option value="facil">Fácil</option><option value="intermedio">Intermedio</option><option value="avanzado">Avanzado</option></select></label>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Categorías musicales" id="category-tabs">
+          <button type="button" role="tab" aria-selected="true" tabindex="0" data-category="Todos">Todos</button>
+          <button type="button" role="tab" aria-selected="false" tabindex="-1" data-category="Clásico">Clásico</button>
+          <button type="button" role="tab" aria-selected="false" tabindex="-1" data-category="Pop">Pop</button>
+          <button type="button" role="tab" aria-selected="false" tabindex="-1" data-category="Jazz">Jazz</button>
+          <button type="button" role="tab" aria-selected="false" tabindex="-1" data-category="Rock">Rock</button>
+          <button type="button" role="tab" aria-selected="false" tabindex="-1" data-category="Bandas Sonoras">Bandas sonoras</button>
+          <button type="button" role="tab" aria-selected="false" tabindex="-1" data-category="Videojuegos">Videojuegos</button>
+          <button type="button" role="tab" aria-selected="false" tabindex="-1" data-category="Principiantes">Principiantes</button>
+        </div>
+        <div class="song-grid" id="song-grid" aria-live="polite"></div>
+        <p class="empty-state" id="empty-state" hidden>No encontramos piezas con esos filtros. Probá otra búsqueda.</p>
+      </section>
+    </section>
 
-        <section class="categories-section">
-            <h2>Categorías Musicales</h2>
-            <div class="category-tabs">
-                <button class="category-btn active" data-category="all">Todos</button>
-                <button class="category-btn" data-category="clasico">Piano Clásico</button>
-                <button class="category-btn" data-category="pop">Pop Moderno</button>
-                <button class="category-btn" data-category="jazz">Jazz & Blues</button>
-                <button class="category-btn" data-category="soundtracks">Bandas Sonoras</button>
-                <button class="category-btn" data-category="anime">Anime & Juegos</button>
-            </div>
-        </section>
-
-        <section class="songs-section">
-            <div class="songs-grid" id="songs-container">
-                <!-- Se inyecta dinámicamente desde app.js -->
-            </div>
-        </section>
-    </main>
-
-    <script src="app.js"></script>
+    <section class="player-view" id="practica" aria-labelledby="player-title" hidden>
+      <div class="player-heading"><button class="back-link" id="back-button" type="button">← Volver al catálogo</button><div><p class="eyebrow">ESTUDIO INTERACTIVO · FASE 1</p><h1 id="player-title">Prepará tu práctica</h1><p id="player-artist" class="muted"></p></div></div>
+      <div class="player-shell">
+        <div class="player-toolbar">
+          <div class="tool-group">
+            <button class="tool-button" id="metronome-button" type="button" aria-pressed="false" title="Activar metrónomo visual">♩ <span>Metrónomo</span></button>
+            <button class="tool-button active" id="mode-button" type="button" aria-pressed="true" title="Alternar modo de práctica">◷ <span id="mode-label">Modo espera</span></button>
+          </div>
+          <div class="tool-group bpm-group"><label for="bpm-range">Velocidad <output id="bpm-value" for="bpm-range">80 BPM</output></label><input id="bpm-range" type="range" min="40" max="180" step="5" value="80"></div>
+        </div>
+        <div class="progress-row"><span id="progress-label">Preparación · 0%</span><progress id="song-progress" max="100" value="0">0%</progress><span id="progress-percent">0%</span></div>
+        <div class="score-stage" id="score-stage" aria-label="Área de partitura, pendiente de implementación en Fase 4">
+          <div class="stage-top"><span class="stage-tag"><i class="status-dot" aria-hidden="true"></i> VISTA PREVIA</span><span>4/4 · Do mayor</span></div>
+          <div class="staff-preview" aria-hidden="true"><div class="staff-lines"><span class="clef">𝄞</span><span class="mock-note n1">●</span><span class="mock-note n2">●</span><span class="mock-note n3">●</span><span class="mock-note n4">●</span><span class="cursor"></span></div><div class="staff-lines bass"><span class="clef">𝄢</span><span class="mock-note n2">●</span><span class="mock-note n3">●</span><span class="mock-note n1">●</span></div></div>
+          <div class="stage-message"><strong>Tu partitura aparecerá acá</strong><span>En esta fase se valida el diseño del reproductor. La lectura, sincronización y captura MIDI se incorporarán después.</span></div>
+          <div class="keyboard-preview" aria-hidden="true"></div>
+        </div>
+        <div class="player-footer"><p id="practice-feedback" role="status">Modo espera seleccionado. La detección de notas todavía no está implementada.</p><button class="button button-secondary" id="reset-button" type="button">Restablecer vista</button></div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><span>NOCTURNA · Aprender piano, a tu ritmo.</span><span>Interfaz demostrativa · Fase 1</span></footer>
+</div>
 </body>
 </html>

@@ -1,54 +1,487 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sala de Ensayo - PianoFlow</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#17243a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Academia Piano">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="description" content="Curso interactivo de teoría musical y piano: lectura, ritmo, oído, teclado y repertorio progresivo.">
+<link rel="manifest" href="manifest.webmanifest">
+<script type="module" src="app.js"></script>
+<title>Academia de Piano | Música en práctica</title>
+<meta name="application-name" content="Academia de Piano">
+<style>
+:root{--navy:#17243a;--navy2:#243650;--cream:#f6f2e9;--paper:#fffdf8;--gold:#c79a45;--gold2:#ead8b3;--ink:#202a38;--muted:#667085;--line:#e7e1d5;--green:#27785d;--red:#b94b4b;--blue:#4776a8;--shadow:0 12px 35px rgba(23,36,58,.09)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.topbar{background:var(--navy);color:#fff;padding:18px max(18px,calc((100vw - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:0;z-index:20;box-shadow:0 5px 20px rgba(0,0,0,.13)}
+.brand{display:flex;align-items:center;gap:12px}.brand-mark{width:42px;height:42px;border-radius:14px;background:var(--gold);display:grid;place-items:center;color:var(--navy);font-size:25px;font-weight:900}.brand h1{font-size:17px;line-height:1.1;margin:0;letter-spacing:.2px}.brand small{display:block;color:#d8dfeb;font-size:11px;margin-top:4px;letter-spacing:1.3px;text-transform:uppercase}
+.top-actions{display:flex;align-items:center;gap:8px}.top-pill{border:1px solid #53627a;color:#f4e7cc;border-radius:99px;padding:8px 12px;font-size:12px}
+.shell{max-width:1180px;margin:auto;padding:20px 18px 54px}
+.nav{display:flex;gap:7px;overflow:auto;padding:4px 0 14px;scrollbar-width:thin}.nav button{white-space:nowrap;border:1px solid var(--line);background:var(--paper);color:var(--navy);border-radius:12px;padding:10px 14px;font-size:13px;font-weight:700}.nav button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.view{display:none}.view.active{display:block}
+.hero{background:linear-gradient(120deg,#1a2941,#344a67);color:#fff;border-radius:24px;padding:28px;display:grid;grid-template-columns:1.5fr .8fr;gap:22px;align-items:center;box-shadow:var(--shadow);overflow:hidden;position:relative}
+.hero:after{content:"𝄞";position:absolute;right:4%;top:-42px;font-family:serif;font-size:250px;color:rgba(255,255,255,.055);pointer-events:none}
+.eyebrow{font-size:11px;letter-spacing:1.7px;text-transform:uppercase;color:var(--gold2);font-weight:800}.hero h2{font-size:clamp(27px,4vw,42px);line-height:1.06;margin:9px 0 12px;max-width:650px}.hero p{color:#dce3ed;max-width:620px;line-height:1.6;margin:0 0 20px;font-size:14px}.hero-stat{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);padding:18px;border-radius:18px;position:relative;z-index:1}.hero-stat strong{display:block;font-size:34px;color:#f4d99e}.hero-stat span{font-size:12px;color:#dce3ed}
+.btn{border:0;border-radius:11px;padding:11px 16px;font-weight:800;font-size:13px;transition:.15s}.btn:active{transform:scale(.98)}.btn-primary{background:var(--gold);color:#18243a}.btn-dark{background:var(--navy);color:#fff}.btn-light{background:#f1eadc;color:var(--navy);border:1px solid #e6dcc8}.btn-outline{background:transparent;border:1px solid var(--line);color:var(--navy)}.btn-small{padding:8px 11px;font-size:12px}.btn:disabled{opacity:.45;cursor:not-allowed}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:27px 0 13px}.section-head h2,.section-head h3{margin:0;color:var(--navy)}.section-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.grid.two{grid-template-columns:repeat(2,1fr)}.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 4px 16px rgba(23,36,58,.035)}.card h3{margin:8px 0 7px;color:var(--navy);font-size:16px}.card p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}.card-icon{width:40px;height:40px;border-radius:13px;background:#f1e7d2;color:#79591e;display:grid;place-items:center;font-size:20px}.card-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.tag{display:inline-block;border-radius:99px;background:#f2ecdf;color:#775a2c;padding:5px 9px;font-size:10px;font-weight:800;letter-spacing:.3px}.progress-track{height:8px;border-radius:99px;background:#ece7dc;overflow:hidden;margin-top:13px}.progress-fill{height:100%;background:var(--green);border-radius:99px;width:0;transition:width .3s}
+.lesson-list{display:grid;gap:10px}.lesson-row{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px;background:var(--paper);border:1px solid var(--line);border-radius:15px;padding:14px}.lesson-num{width:38px;height:38px;border-radius:12px;background:#edf0f4;color:var(--navy);display:grid;place-items:center;font-weight:900}.lesson-row.done .lesson-num{background:#dceee5;color:var(--green)}.lesson-row h3{font-size:14px;margin:0 0 4px;color:var(--navy)}.lesson-row p{font-size:12px;color:var(--muted);margin:0}
+.lesson-body{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:22px;margin-top:14px}.lesson-body h2{margin:7px 0;color:var(--navy)}.lesson-body p,.lesson-body li{line-height:1.65;color:#465264;font-size:14px}.lesson-body ul{padding-left:21px}.example{background:#f6f1e6;border-left:4px solid var(--gold);padding:12px 14px;border-radius:8px;margin:14px 0;color:#4d4639;font-size:13px;line-height:1.6}.quiz{background:#f5f7fa;border:1px solid #e1e7ef;border-radius:16px;padding:17px;margin-top:20px}.quiz h3{margin:0 0 10px;color:var(--navy)}.choices{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.choice{background:#fff;border:1px solid #d7dfe8;color:var(--navy);border-radius:10px;padding:9px 13px;font-weight:700;font-size:13px}.choice.correct{border-color:var(--green);background:#e4f2eb;color:#1d654d}.choice.wrong{border-color:var(--red);background:#fae9e7;color:#983e3e}.feedback{font-size:13px;font-weight:700;min-height:20px;margin-top:8px}
+.panel-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.panel-title h2{margin:0;color:var(--navy);font-size:22px}.muted{color:var(--muted);font-size:13px;line-height:1.55}
+.piano-wrap{background:var(--navy);border-radius:20px;padding:16px;overflow:hidden}.piano-head{display:flex;justify-content:space-between;gap:10px;align-items:center;color:#fff;margin-bottom:12px}.piano-head small{color:#c8d2e0}.keyboard{height:210px;position:relative;display:flex;background:#111b2a;border-radius:8px;overflow:hidden;touch-action:manipulation;user-select:none}.key-white{height:100%;flex:1;background:linear-gradient(180deg,#fff 0%,#f3f1eb 100%);border:1px solid #c8c8c5;border-radius:0 0 6px 6px;position:relative;z-index:1;color:#536070;display:flex;align-items:flex-end;justify-content:center;padding-bottom:9px;font-size:10px;font-weight:700;min-width:0}.key-white:active,.key-white.pressed{background:#e8d8b5}.key-black{position:absolute;top:0;height:62%;width:4.2%;background:linear-gradient(90deg,#141414,#3a3a3a 45%,#101010);border:1px solid #090909;border-radius:0 0 5px 5px;z-index:3;color:#fff;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font-size:8px;box-shadow:2px 3px 4px rgba(0,0,0,.35)}.key-black:active,.key-black.pressed{background:#775a2c}
+.key-label-hidden .key-white span,.key-label-hidden .key-black span{display:none}
+.piano-tools{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.status-box{background:#f5f1e8;border:1px solid #e8dfce;border-radius:13px;padding:12px 14px;font-size:13px;color:#4e4b43;min-height:44px}
+.staff-box{background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px;max-width:520px}.staff-box svg{width:100%;height:auto;display:block}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.controls label{font-size:12px;color:var(--muted);font-weight:700}.controls input[type=range]{accent-color:var(--gold);width:170px}
+.metronome-display{background:var(--navy);color:#fff;border-radius:18px;padding:20px;text-align:center}.metronome-display strong{font-size:46px;display:block;color:#f1d69f}.beat-dot{display:inline-block;width:12px;height:12px;border-radius:50%;background:#64748b;margin:12px 4px}.beat-dot.on{background:var(--gold);box-shadow:0 0 0 7px rgba(199,154,69,.18)}
+.note-values{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.note-value{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 5px;text-align:center}.note-value b{font-size:23px;color:var(--navy);display:block}.note-value span{font-size:11px;color:var(--muted)}
+.song-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.song-card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px}.song-card h3{margin:0;font-size:14px;color:var(--navy)}.song-card p{margin:0;font-size:11px;color:var(--muted)}.song-card .btn{margin-top:auto}
+.filter-row{display:flex;gap:7px;overflow:auto;padding:2px 0 12px}.filter-row button{white-space:nowrap;border:1px solid var(--line);background:var(--paper);border-radius:99px;padding:8px 12px;color:var(--navy);font-size:12px;font-weight:700}.filter-row button.active{background:var(--navy);color:#fff}
+.song-detail{margin-top:15px}.note-strip{display:flex;flex-wrap:wrap;gap:5px;margin:12px 0}.note-chip{background:#edf0f4;color:var(--navy);padding:6px 8px;border-radius:7px;font-size:11px;font-weight:800}.note-chip.current{background:#f4e3bd;outline:2px solid var(--gold)}
+.footer-note{margin-top:25px;padding:15px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);line-height:1.6}
+.empty{padding:25px;text-align:center;color:var(--muted)}
+@media(max-width:820px){.grid{grid-template-columns:repeat(2,1fr)}.song-grid{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr}.hero-stat{max-width:260px}.hero:after{right:-20px;top:100px;font-size:180px}}
+@media(max-width:540px){.shell{padding:14px 12px 40px}.topbar{padding:13px 14px}.top-pill{display:none}.brand h1{font-size:15px}.brand-mark{width:38px;height:38px}.nav button{padding:9px 11px}.hero{padding:21px;border-radius:18px}.hero h2{font-size:29px}.grid,.grid.two,.song-grid{grid-template-columns:1fr}.lesson-row{grid-template-columns:38px 1fr}.lesson-row .btn{grid-column:2;justify-self:start}.keyboard{height:175px}.key-white{font-size:8px;padding-bottom:7px}.key-black{font-size:7px}.note-values{grid-template-columns:repeat(5,1fr)}.note-value{padding:9px 2px}.note-value b{font-size:19px}.section-head{align-items:start;flex-direction:column}}
+
+/* Academia Piano Pro: refinamientos de accesibilidad y laboratorios */
+:focus-visible{outline:3px solid #d6a84e;outline-offset:3px}
+select,input[type=search]{border:1px solid #d8d2c7;border-radius:10px;background:#fffdf8;color:var(--navy);padding:9px 11px;min-height:40px}
+.field-inline{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;font-weight:700}
+.field-inline select{padding:7px 9px;min-height:36px}
+.search-row{display:flex;align-items:center;gap:12px;margin:6px 0 12px}
+.search-row label{font-size:12px;font-weight:800;color:var(--navy);white-space:nowrap}
+.search-row input{width:min(100%,420px)}
+.scale-result{background:#f5f1e8;border:1px solid #e8dfce;border-radius:13px;padding:14px;margin:14px 0;min-height:66px;color:#3f4856}
+.scale-result strong{display:block;color:var(--navy);margin-bottom:6px}
+.scale-notes{display:flex;flex-wrap:wrap;gap:6px}
+.scale-notes span{background:#fff;border:1px solid #e4dccd;border-radius:8px;padding:6px 8px;font-weight:800;font-size:12px;color:var(--navy)}
+.app-footer{max-width:1180px;margin:0 auto;padding:0 18px 28px;color:var(--muted);font-size:11px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.app-footer strong{color:var(--navy)}
+button:disabled{cursor:not-allowed;opacity:.55}
+@media(max-width:540px){.search-row{align-items:stretch;flex-direction:column;gap:6px}.search-row input{width:100%}.field-inline{font-size:11px}.field-inline select{max-width:150px}.app-footer{padding:0 12px 24px}}
+
+
+/* Estudio interactivo 2.0 — diseño original */
+#studio{--ink:#14233a;--accent:#b98c46}#studio .studio-hero{background:radial-gradient(circle at 84% 45%,#3a4a65 0%,#14233a 54%,#0b1729 100%);color:#fff;padding:32px 36px;border-radius:24px;display:flex;align-items:center;justify-content:space-between;gap:18px;overflow:hidden;margin-bottom:20px;min-height:230px}#studio .studio-kicker{font-size:10px;font-weight:800;letter-spacing:2px;color:#c8a86d}#studio .studio-hero h2{font-size:clamp(28px,4vw,46px);line-height:1.09;margin:12px 0;color:#fff;letter-spacing:-1.3px}#studio .studio-hero h2 em{font-style:normal;color:#e6c994}#studio .studio-hero p{max-width:480px;color:#d5ddea;font-size:13px;line-height:1.6}#studio .studio-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:19px}#studio .midi-status{font-size:11px;color:#e6e9f0}#studio .studio-orbit{width:155px;height:155px;flex:0 0 155px;border:1px solid #7e8da1;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:65px;color:#f1d7a5;box-shadow:0 0 0 19px #ffffff08,0 0 0 38px #ffffff05}#studio .studio-orbit small{font-size:10px;letter-spacing:2px;text-align:center;line-height:1.3}#studio .studio-layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:16px}#studio .studio-side,#studio .studio-main{background:#fff;border:1px solid #e4e7ec;border-radius:19px;padding:18px;min-width:0}#studio .studio-side-title{display:grid;gap:5px;margin-bottom:14px}#studio .studio-side-title span{font-size:10px;letter-spacing:1.5px;color:#a27c43;font-weight:800}#studio .studio-side-title strong{font-size:17px;color:#18263d}#studio #studioSearch{width:100%;font-size:12px}#studio .studio-filters{display:flex;flex-wrap:wrap;gap:5px;margin:12px 0}#studio .studio-filters button{font-size:10px;border-radius:99px;border:1px solid #e3e6eb;background:#fff;padding:6px 8px;color:#3c4a5f}#studio .studio-filters button.selected{background:#17243a;color:#fff}#studio .studio-list{max-height:690px;overflow:auto;display:grid;gap:6px}#studio .studio-item{width:100%;display:flex;align-items:center;gap:10px;text-align:left;background:#fafbfc;border:1px solid #e7eaf0;padding:10px;border-radius:12px;color:#23334a}#studio .studio-item.active{border-color:#b98c46;background:#fff7e8}#studio .studio-item .song-icon{width:34px;height:34px;display:grid;place-items:center;background:#f1e8d8;border-radius:10px;color:#80602d;font-size:19px;flex-shrink:0}#studio .studio-item strong{font-size:11px;display:block}#studio .studio-item small{font-size:10px;color:#718096;display:block;margin-top:3px}#studio .studio-toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px}#studio .studio-toolbar h2{font-size:23px;margin:7px 0 3px;color:#17243a}#studio .studio-toolbar p{font-size:11px;color:#7b8797;margin:0}#studio .studio-level{border-radius:30px;background:#f0e7d5;color:#7d5b24;padding:7px 11px;font-size:11px;font-weight:800;white-space:nowrap}#studio .studio-modes{display:flex;flex-wrap:wrap;gap:9px;margin:20px 0 13px}#studio .studio-modes label{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#64748b}#studio .studio-modes select{font-size:11px;padding:7px;min-height:34px}#studio .studio-sheet{background:#fcfcfa;border:1px solid #e8e7e2;border-radius:15px;padding:13px;overflow:hidden}#studio .studio-sheet-header{display:flex;justify-content:space-between;color:#798494;font-size:10px;font-weight:800;letter-spacing:1px}#studio .studio-score{overflow:auto;margin:10px 0;scrollbar-width:thin}#studio .studio-score svg{display:block;max-width:none;height:auto}#studio .studio-score-caption{font-size:10px;color:#7a8493}#studio .studio-controlbar{display:flex;align-items:center;gap:10px;margin-top:15px;flex-wrap:wrap}#studio .studio-play{background:#17243a;color:#fff;border:0;border-radius:11px;padding:12px 17px;font-size:12px;font-weight:800}#studio .studio-iconbtn{border:1px solid #e1e4e9;background:#fff;border-radius:10px;font-size:23px;width:42px;height:42px;color:#17243a}#studio .studio-loop{font-size:11px;color:#64748b;display:flex;gap:5px;align-items:center}#studio .studio-metrics{margin-left:auto;text-align:right;display:grid}#studio .studio-metrics strong{font-size:17px;color:#17243a}#studio .studio-metrics small{font-size:9px;color:#84909f}#studio .studio-progress{height:7px;background:#edf0f3;border-radius:99px;margin:14px 0 11px;overflow:hidden}#studio #studioProgressBar{height:100%;width:0;background:#ba965d;transition:width .2s}#studio .studio-feedback{font-size:12px;color:#59677a;min-height:38px;line-height:1.5}#studio .studio-keyboard-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:16px 0 8px}#studio .studio-keyboard-head strong{font-size:10px;letter-spacing:1px;color:#4e5b6b}#studio .studio-keyboard-head span{font-size:10px;color:#7d8a9b}#studio .studio-keys{height:170px;display:flex;position:relative;background:#1d2939;border-radius:8px;overflow:hidden;touch-action:manipulation;user-select:none}#studio .studio-white{flex:1;background:linear-gradient(#fff,#eceef0);border:1px solid #b7bec9;border-radius:0 0 5px 5px;position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:center;padding-bottom:7px;font-size:9px;color:#8792a0;min-width:0}#studio .studio-black{position:absolute;top:0;height:62%;width:3.4%;background:linear-gradient(90deg,#0b1320,#334055,#0b1320);border-radius:0 0 5px 5px;z-index:3;box-shadow:1px 2px 3px #0005}#studio .studio-white.expected,#studio .studio-black.expected{background:#dfbd7b;color:#37270d}#studio .studio-white.hit,#studio .studio-black.hit{background:#69cba7}#studio .studio-help{margin-top:16px;padding:12px;background:#f7f9fb;border-radius:11px;font-size:11px;color:#677488;line-height:1.6}#studio .studio-score svg .current-note{fill:#c08d39;stroke:#c08d39}#studio .studio-score svg .completed-note{fill:#55a88a;stroke:#55a88a}@media(max-width:850px){#studio .studio-layout{grid-template-columns:1fr}#studio .studio-list{max-height:220px}#studio .studio-side{padding:14px}#studio .studio-hero{padding:25px}#studio .studio-orbit{display:none}}@media(max-width:540px){#studio .studio-main{padding:12px}#studio .studio-hero{padding:21px;min-height:auto}#studio .studio-modes{gap:8px}#studio .studio-modes label{width:100%;justify-content:space-between}#studio .studio-modes select{min-width:145px}#studio .studio-keys{height:125px}#studio .studio-white{font-size:7px}}
+
+</style>
+<link rel="stylesheet" href="styles.css">
 </head>
-<body class="studio-body">
-    <header class="studio-header">
-        <button onclick="window.location.href='index.html'" class="btn-back">⬅ Volver</button>
-        <div class="song-info-display">
-            <h2 id="studio-song-title">Cargando...</h2>
-            <p id="studio-song-artist">Artista</p>
-        </div>
-        <div class="studio-controls">
-            <div class="control-group">
-                <label>Velocidad: <span id="bpm-value">100</span> BPM</label>
-                <input type="range" id="bpm-slider" min="40" max="200" value="100">
-            </div>
-            <button id="wait-mode-toggle" class="btn-toggle active">Modo Espera: ON</button>
-        </div>
-        <div class="hardware-status">
-            <span id="studio-midi-indicator" class="status-badge disconnected">MIDI</span>
-            <span id="studio-mic-indicator" class="status-badge disconnected">Mic</span>
-        </div>
-    </header>
+<body>
+<div class="orientation-gate" id="orientation-gate" role="dialog" aria-modal="true" aria-labelledby="orientation-title"><div class="orientation-card"><div class="rotate-symbol" aria-hidden="true">↻</div><p class="orientation-kicker">NOCTURNA · PIANO STUDIO</p><h2 id="orientation-title">Girá tu dispositivo</h2><p>El estudio interactivo está diseñado para usarse en posición horizontal.</p><span class="orientation-hint">La pantalla se adapta automáticamente</span></div></div>
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">♫</div><div><h1>Academia de Piano</h1><small>Música en práctica</small></div></div>
+  <div class="top-actions"><span class="top-pill">Teoría · Ritmo · Oído · Repertorio</span><button class="btn btn-primary btn-small" id="installHint">Cómo instalar</button></div>
+</header>
+<main class="shell">
+  <nav class="nav" aria-label="Secciones">
+    <button data-view="home" class="active">⌂ Inicio</button>
+    <button data-view="course">▤ Curso</button>
+    <button data-view="studio">✦ Estudio interactivo</button>
+    <button data-view="piano">♬ Piano</button>
+    <button data-view="rhythm">◷ Ritmo</button>
+    <button data-view="ear">耳 Oído</button>
+    <button data-view="tech">♧ Técnica</button>
+    <button data-view="library">♫ Repertorio</button>
+    <button data-view="progress">✓ Mi progreso</button>
+  </nav>
 
-    <main class="studio-container">
-        <!-- Visualizador de Notas Estilo Flowkey -->
-        <div class="visualizer-wrapper">
-            <div class="notes-cursor" id="notes-cursor"></div>
-            <canvas id="flowkey-canvas"></canvas>
-        </div>
+  <section id="home" class="view active">
+    <div class="hero">
+      <div><div class="eyebrow">Tu formación musical, paso a paso</div><h2>Entendé la música.<br>Disfrutá tocar el piano.</h2><p>Un recorrido práctico para recuperar teoría musical, leer partituras, entrenar el oído y aprender melodías desde lo más sencillo hasta piezas de mayor dificultad.</p><button class="btn btn-primary" onclick="go('course')">Empezar mi curso →</button></div>
+      <div class="hero-stat"><strong id="homePercent">0%</strong><span>de tu recorrido completado</span><div class="progress-track"><div id="homeProgress" class="progress-fill"></div></div><p style="font-size:11px;color:#dce3ed;margin:12px 0 0">Tu avance queda guardado en este dispositivo.</p></div>
+    </div>
+    <div class="section-head"><div><h2>Tu camino de aprendizaje</h2><p>Clases cortas, práctica inmediata y objetivos claros.</p></div></div>
+    <div class="grid">
+      <article class="card"><div class="card-top"><div class="card-icon">♬</div><span class="tag">12 módulos</span></div><h3>Teoría musical aplicada</h3><p>Notas, pentagrama, figuras, compases, escalas, intervalos, acordes y armonía.</p><div class="progress-track"><div class="progress-fill" id="courseProgress"></div></div></article>
+      <article class="card"><div class="card-top"><div class="card-icon">🎹</div><span class="tag">Teclado virtual</span></div><h3>Práctica de piano</h3><p>Reconocé notas, tocá melodías, entrená la coordinación y explorá el teclado.</p><button class="btn btn-light btn-small" style="margin-top:13px" onclick="go('piano')">Abrir piano</button></article>
+      <article class="card"><div class="card-top"><div class="card-icon">♫</div><span class="tag">50 prácticas</span></div><h3>Biblioteca musical</h3><p>Melodías clásicas y tradicionales, más estudios originales de distintos estilos.</p><button class="btn btn-light btn-small" style="margin-top:13px" onclick="go('library')">Ver repertorio</button></article>
+      <article class="card"><div class="card-top"><div class="card-icon">♬</div><span class="tag">Escalas y acordes</span></div><h3>Técnica y armonía</h3><p>Practicá escalas, construí acordes y escuchá acompañamientos para piano.</p><button class="btn btn-light btn-small" style="margin-top:13px" onclick="go('tech')">Abrir laboratorio</button></article>
+    </div>
+    <div class="section-head"><div><h2>La práctica de hoy</h2><p>Una sesión equilibrada para avanzar sin saturarte.</p></div></div>
+    <div class="grid two">
+      <article class="card"><h3>① Leé una nota</h3><p>Identificá una nota en el pentagrama de clave de sol y encontrala en el teclado.</p><button class="btn btn-dark btn-small" style="margin-top:13px" onclick="go('piano')">Practicar notas</button></article>
+      <article class="card"><h3>② Marcá el pulso</h3><p>Usá el metrónomo y mantené un pulso constante durante un minuto.</p><button class="btn btn-dark btn-small" style="margin-top:13px" onclick="go('rhythm')">Practicar ritmo</button></article>
+    </div>
+    <div class="footer-note">Sugerencia: estudiá entre 25 y 45 minutos por sesión. La constancia y la práctica lenta y consciente suelen dar mejores resultados que tocar rápido sin control.</div>
+  </section>
 
-        <!-- Teclado Virtual de Feedback -->
-        <div class="piano-keyboard-container">
-            <div class="piano-keyboard" id="piano-keyboard">
-                <!-- Teclas generadas por JS -->
-            </div>
-        </div>
-    </main>
+  <section id="studio" class="view">
+    <div class="studio-hero"><div><span class="studio-kicker">ACADEMIA PIANO · ESTUDIO EN VIVO</span><h2>Tu piano. Tu ritmo.<br><em>Tu música.</em></h2><p>Conectá tu piano de 88 teclas por USB MIDI. La partitura espera tus notas y te acompaña paso a paso.</p><div class="studio-actions"><button id="connectMidi" class="btn btn-primary">◉ Conectar piano MIDI</button><span id="midiState" class="midi-status" role="status">● Sin conectar · Podés usar el teclado virtual</span></div></div><div class="studio-orbit" aria-hidden="true">♬<small>88<br>TECLAS</small></div></div>
+    <div class="studio-layout">
+      <aside class="studio-side">
+        <div class="studio-side-title"><span>01 / BIBLIOTECA</span><strong>Elegí una pieza</strong></div>
+        <input type="search" id="studioSearch" placeholder="Buscar por nombre o estilo…" aria-label="Buscar piezas">
+        <div class="studio-filters"><button data-studio-filter="Todos" class="selected">Todas</button><button data-studio-filter="Original">Estudios</button><button data-studio-filter="Clásica">Clásicas</button><button data-studio-filter="Tradicional">Tradicionales</button><button data-studio-filter="Otro">Otros estilos</button></div>
+        <div id="studioList" class="studio-list"></div>
+      </aside>
+      <div class="studio-main">
+        <div class="studio-toolbar"><div><span class="studio-kicker">02 / TU PRÁCTICA</span><h2 id="studioTitle">Elegí una pieza</h2><p id="studioSubtitle">Estudio interactivo · MIDI o teclado virtual</p></div><span id="studioLevel" class="studio-level">Inicial</span></div>
+        <div class="studio-modes legacy-mode-controls"><label>Modo <select id="studioMode"><option value="wait">Esperar mis notas</option><option value="listen">Escuchar demostración</option></select></label><label>Manos <select id="studioHand"><option value="both">Ambas</option><option value="right">Derecha</option><option value="left">Izquierda</option></select></label><label>Velocidad <select id="studioSpeed"><option value="0.5">50%</option><option value="0.75">75%</option><option value="1" selected>100%</option><option value="1.25">125%</option></select></label></div>
+        <section class="premium-player" id="premium-player" aria-label="Reproductor interactivo de piano">
+          <div class="premium-player-head"><div><span class="studio-kicker">03 / REPRODUCTOR EN VIVO</span><h3>Práctica guiada</h3><p id="engine-status" role="status">Preparando muestras de piano…</p></div><div class="engine-badges"><span id="engine-midi" class="engine-badge">● MIDI desconectado</span><span id="engine-mic" class="engine-badge">● Micrófono no usado</span></div></div>
+          <div class="player-controls"><button class="engine-play" id="engine-play" type="button" aria-label="Reproducir">▶ <span>Reproducir</span></button><button class="engine-reset" id="engine-reset" type="button" aria-label="Reiniciar práctica">↺</button><button class="engine-midi-connect" id="engine-midi-connect" type="button">Conectar MIDI</button><label class="volume-control" for="engine-volume">Volumen <input id="engine-volume" type="range" min="0" max="1" step="0.01" value="0.72"></label><label class="wait-control"><input id="engine-wait" type="checkbox" checked> Modo espera</label><span id="engine-time" class="engine-time">00:00</span></div>
+          <div class="falling-stage"><canvas id="fallingNotesCanvas" aria-label="Notas musicales descendiendo hacia el teclado"></canvas><div class="execution-line"><span>TOCÁ ACÁ</span></div></div>
+          <div class="live-keyboard-wrap"><div class="live-keyboard-label"><strong>TECLADO VIRTUAL</strong><span id="engine-feedback" role="status">Tocá reproducir para comenzar.</span></div><div id="liveKeyboard" class="live-keyboard" aria-label="Teclado virtual de dos octavas"></div></div>
+          <div class="engine-footnote">Audio de piano muestreado. Para Web MIDI necesitás un navegador compatible y un teclado conectado; en iPhone podés practicar con el teclado virtual.</div>
+        </section>
+        <div class="studio-sheet"><div class="studio-sheet-header"><span>PARTITURA INTERACTIVA</span><span id="studioMeasure">Compás 1</span></div><div id="studioScore" class="studio-score" role="img" aria-label="Partitura de la pieza seleccionada"></div><div class="studio-score-caption" id="studioScoreNote">Lectura de notas y figuras · Claves de Sol y Fa</div></div>
+        <div class="studio-controlbar"><button class="studio-play" id="studioPlay">▶ Comenzar práctica</button><button class="studio-iconbtn" id="studioRestart" title="Reiniciar" aria-label="Reiniciar">↺</button><label class="studio-loop"><input type="checkbox" id="studioLoop"> Repetir</label><div class="studio-metrics"><strong id="studioAccuracy">—</strong><small>Precisión de notas</small></div></div>
+        <div class="studio-progress"><div id="studioProgressBar"></div></div>
+        <div id="studioFeedback" class="studio-feedback" role="status">Elegí una pieza y tocá «Comenzar práctica». El modo «Esperar mis notas» avanza cuando tocás las notas correctas.</div>
+        <div class="studio-keyboard-head"><strong>TECLADO INTERACTIVO</strong><span id="studioLastNote">Listo para tocar</span></div><div id="studioKeys" class="studio-keys" aria-label="Teclado virtual interactivo"></div>
+        <div class="studio-help"><b>Compatibilidad MIDI:</b> usá Chrome o Edge de escritorio con el piano conectado por USB. Aceptá el permiso MIDI cuando aparezca. En Safari de iPhone/iPad, Web MIDI no está disponible de forma nativa; usá el teclado virtual o un navegador/dispositivo compatible. La evaluación comprueba alturas de notas y simultaneidad aproximada de acordes, no sustituye la corrección de ritmo, dinámica ni digitación de un docente.</div>
+      </div>
+    </div>
+  </section>
 
-    <script src="app.js"></script>
-    <script>
-        // Inicialización específica de la sala de ensayo al cargar la página
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof initStudio === 'function') {
-                initStudio();
-            }
-        });
-    </script>
+  <section id="course" class="view">
+    <div class="section-head"><div><h2>Curso de teoría musical y piano</h2><p>12 módulos progresivos. Cada clase incluye explicación, ejemplo y una actividad.</p></div><span class="tag" id="lessonCount">0 / 12 completados</span></div>
+    <div class="lesson-list" id="lessonList"></div>
+    <div id="lessonDetail"></div>
+  </section>
+
+  <section id="piano" class="view">
+    <div class="panel-title"><div><h2>Laboratorio de piano</h2><div class="muted">Explorá el teclado, reconocé notas y practicá melodías.</div></div><span class="tag">C4–B5</span></div>
+    <div class="piano-tools">
+      <button class="btn btn-dark btn-small" id="modeFree">Explorar teclado</button>
+      <button class="btn btn-light btn-small" id="modeFind">Encontrar una nota</button>
+      <button class="btn btn-light btn-small" id="toggleLabels">Ocultar nombres</button>
+    </div>
+    <div class="card" style="margin-bottom:14px">
+      <div class="panel-title"><h3 style="margin:0">Desafío de lectura</h3><label class="field-inline">Clave <select id="clefSelect" aria-label="Elegir clave"><option value="treble">Sol · mano derecha</option><option value="bass">Fa · mano izquierda</option></select></label></div>
+      <p class="muted">Mirá la posición de la nota en el pentagrama. Después encontrala en el teclado. Cambiá entre clave de Sol y clave de Fa para entrenar ambas manos.</p>
+      <div class="staff-box" id="staffQuiz"></div>
+      <div class="controls" style="margin-top:12px"><button class="btn btn-primary btn-small" id="newStaffNote">Activar / nueva nota</button><span class="muted" id="staffPrompt">Tocá “Nueva nota” para activar el desafío de lectura.</span></div>
+    </div>
+    <div class="piano-wrap">
+      <div class="piano-head"><div><strong>Teclado virtual</strong><br><small>Presioná las teclas para escuchar su sonido.</small></div><small id="pianoOctaves">Dos octavas</small></div>
+      <div id="keyboard" class="keyboard"></div>
+      <div class="piano-tools"><button class="btn btn-primary btn-small" id="playScale">Escuchar escala de Do</button><button class="btn btn-light btn-small" id="resetPiano">Reiniciar práctica</button></div>
+    </div>
+    <div class="status-box" id="pianoStatus" style="margin-top:13px">Modo libre: tocá cualquier tecla para escucharla.</div>
+    <div class="section-head"><div><h3>Recordatorio de notas</h3><p>Las teclas blancas siguen el orden Do–Re–Mi–Fa–Sol–La–Si.</p></div></div>
+    <div class="grid two">
+      <div class="card"><h3>Teclas blancas</h3><p><b>Do (C), Re (D), Mi (E), Fa (F), Sol (G), La (A), Si (B).</b> Después de Si vuelve a Do, una octava más arriba.</p></div>
+      <div class="card"><h3>Teclas negras</h3><p>Son alteraciones: sostenidos (♯) o bemoles (♭). Por ejemplo, Do♯ y Re♭ suenan igual en el piano moderno.</p></div>
+    </div>
+  </section>
+
+  <section id="rhythm" class="view">
+    <div class="panel-title"><div><h2>Laboratorio rítmico</h2><div class="muted">Pulso, duración de figuras, compases y metrónomo.</div></div><span class="tag">Práctica auditiva</span></div>
+    <div class="grid two">
+      <div class="metronome-display"><span class="eyebrow">Metrónomo</span><strong id="bpmValue">80</strong><span style="font-size:12px;color:#d8dfeb">pulsos por minuto</span><div><i class="beat-dot" id="beat1"></i><i class="beat-dot" id="beat2"></i><i class="beat-dot" id="beat3"></i><i class="beat-dot" id="beat4"></i></div><div class="controls" style="justify-content:center"><button class="btn btn-primary btn-small" id="metroStart">Iniciar</button><button class="btn btn-light btn-small" id="metroStop">Detener</button></div></div>
+      <div class="card"><h3>Ajustá la velocidad</h3><p class="muted">Empezá lento. Cuando puedas mantener el pulso sin adelantarte ni atrasarte, subí gradualmente.</p><div class="controls" style="margin-top:18px"><label for="bpm">BPM</label><input id="bpm" type="range" min="40" max="180" value="80"><b id="bpmRead">80</b></div><p class="muted" style="margin-top:12px">Referencia: 60 BPM = un pulso por segundo.</p></div>
+    </div>
+    <div class="section-head"><div><h3>Duración de las figuras en 4/4</h3><p>Tomamos la negra como unidad de pulso.</p></div></div>
+    <div class="note-values">
+      <div class="note-value"><b>𝅝</b><strong>Redonda</strong><span>4 tiempos</span></div>
+      <div class="note-value"><b>𝅗𝅥</b><strong>Blanca</strong><span>2 tiempos</span></div>
+      <div class="note-value"><b>♩</b><strong>Negra</strong><span>1 tiempo</span></div>
+      <div class="note-value"><b>♪</b><strong>Corchea</strong><span>½ tiempo</span></div>
+      <div class="note-value"><b>𝅘𝅥𝅯</b><strong>Semicorchea</strong><span>¼ tiempo</span></div>
+    </div>
+    <div class="quiz" style="margin-top:18px"><h3>Desafío: ¿cuánto dura esta figura?</h3><div id="rhythmQuestion" style="font-size:42px;color:var(--navy);margin:8px 0">♩</div><div class="choices" id="rhythmChoices"></div><div class="feedback" id="rhythmFeedback"></div><button class="btn btn-light btn-small" id="nextRhythm">Otra pregunta</button></div>
+    <div class="example"><b>Ejercicio práctico:</b> poné el metrónomo a 60 BPM. Aplaudí cuatro negras seguidas; después tocá dos blancas; finalmente alterná una blanca y dos negras. No aceleres para “alcanzar” el clic: buscá coincidir con él.</div>
+  </section>
+
+  <section id="ear" class="view">
+    <div class="panel-title"><div><h2>Entrenamiento auditivo</h2><div class="muted">Escuchá, compará y reconocé relaciones entre sonidos.</div></div><span class="tag">Oído musical</span></div>
+    <div class="grid two">
+      <div class="card"><div class="card-icon">♫</div><h3>Intervalos musicales</h3><p>Un intervalo es la distancia entre dos notas. Primero escuchá dos sonidos y después elegí qué distancia los separa.</p><button class="btn btn-dark btn-small" style="margin-top:13px" id="playInterval">Escuchar intervalo</button></div>
+      <div class="card"><div class="card-icon">👂</div><h3>Consejo para entrenar</h3><p>Escuchá varias veces. Cantá las dos notas si podés. No intentes adivinar por velocidad: compará la sensación sonora.</p></div>
+    </div>
+    <div class="quiz" style="margin-top:16px"><h3>¿Qué intervalo escuchaste?</h3><p class="muted">Se reproducen dos notas una después de la otra.</p><div class="choices" id="intervalChoices"></div><div class="feedback" id="intervalFeedback"></div><button class="btn btn-light btn-small" id="newInterval">Nuevo intervalo</button></div>
+    <div class="section-head"><div><h3>Guía rápida de intervalos</h3><p>Distancias expresadas en semitonos.</p></div></div>
+    <div class="grid">
+      <div class="card"><h3>2 semitonos</h3><p>Segunda mayor. Ejemplo: Do–Re.</p></div>
+      <div class="card"><h3>3 semitonos</h3><p>Tercera menor. Ejemplo: Do–Mi♭.</p></div>
+      <div class="card"><h3>4 semitonos</h3><p>Tercera mayor. Ejemplo: Do–Mi.</p></div>
+      <div class="card"><h3>5 semitonos</h3><p>Cuarta justa. Ejemplo: Do–Fa.</p></div>
+      <div class="card"><h3>7 semitonos</h3><p>Quinta justa. Ejemplo: Do–Sol.</p></div>
+      <div class="card"><h3>12 semitonos</h3><p>Octava justa. Dos notas con el mismo nombre en registros distintos.</p></div>
+    </div>
+  </section>
+
+
+  <section id="tech" class="view">
+    <div class="panel-title"><div><h2>Laboratorio de técnica y armonía</h2><div class="muted">Escalas, acordes y acompañamientos para llevar la teoría al teclado.</div></div><span class="tag">Práctica aplicada</span></div>
+    <div class="grid two">
+      <article class="card">
+        <div class="card-icon">♬</div><h3>Constructor de escalas</h3>
+        <p>Elegí una tonalidad y escuchá su escala ascendente y descendente.</p>
+        <div class="controls" style="margin-top:14px">
+          <label for="scaleRoot">Tonalidad</label>
+          <select id="scaleRoot"><option value="0">Do</option><option value="1">Do♯ / Re♭</option><option value="2">Re</option><option value="3">Mi♭</option><option value="4">Mi</option><option value="5">Fa</option><option value="6">Fa♯ / Sol♭</option><option value="7">Sol</option><option value="8">La♭</option><option value="9">La</option><option value="10">Si♭</option><option value="11">Si</option></select>
+          <label for="scaleType">Tipo</label>
+          <select id="scaleType"><option value="major">Mayor</option><option value="minor">Menor natural</option><option value="harmonic">Menor armónica</option><option value="melodic">Menor melódica (ascendente)</option></select>
+        </div>
+        <div id="scaleResult" class="scale-result" aria-live="polite"></div>
+        <div class="controls"><button class="btn btn-primary btn-small" id="playScaleLab">▶ Escuchar escala</button><button class="btn btn-light btn-small" id="showScaleNotes">Mostrar notas</button></div>
+        <p class="muted" style="margin-top:10px">Práctica sugerida: manos separadas, articulación pareja, metrónomo lento y aumento gradual del tempo. La digitación debe adaptarse a cada tonalidad.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">▦</div><h3>Constructor de acordes</h3>
+        <p>Formá acordes por intervalos y escuchá cómo cambia su carácter.</p>
+        <div class="controls" style="margin-top:14px">
+          <label for="chordRoot">Fundamental</label>
+          <select id="chordRoot"><option value="0">Do</option><option value="1">Do♯ / Re♭</option><option value="2">Re</option><option value="3">Mi♭</option><option value="4">Mi</option><option value="5">Fa</option><option value="6">Fa♯ / Sol♭</option><option value="7">Sol</option><option value="8">La♭</option><option value="9">La</option><option value="10">Si♭</option><option value="11">Si</option></select>
+          <label for="chordType">Calidad</label>
+          <select id="chordType"><option value="major">Mayor</option><option value="minor">Menor</option><option value="dim">Disminuido</option><option value="aug">Aumentado</option><option value="sus4">Sus4</option><option value="7">Séptima dominante</option></select>
+        </div>
+        <div id="chordResult" class="scale-result" aria-live="polite"></div>
+        <div class="controls"><button class="btn btn-primary btn-small" id="playChordLab">▶ Escuchar acorde</button><button class="btn btn-light btn-small" id="arpeggiateChord">Escuchar arpegio</button></div>
+        <p class="muted" style="margin-top:10px">Tocá primero cada nota por separado; después el acorde completo. Escuchá la diferencia entre mayor, menor y las demás calidades.</p>
+      </article>
+    </div>
+    <div class="section-head"><div><h3>Acompañamiento de mano izquierda</h3><p>Patrones sencillos para empezar a acompañar melodías.</p></div></div>
+    <div class="grid">
+      <article class="card"><span class="tag">3/4 · Vals</span><h3>Bajo – acorde – acorde</h3><p>Un bajo en el primer tiempo y el acorde en los tiempos dos y tres.</p><button class="btn btn-dark btn-small" style="margin-top:12px" onclick="playAccompaniment('waltz')">Escuchar patrón</button></article>
+      <article class="card"><span class="tag">4/4 · Pop</span><h3>Fundamental y quinta</h3><p>Alterná la fundamental y la quinta para sostener una canción.</p><button class="btn btn-dark btn-small" style="margin-top:12px" onclick="playAccompaniment('pop')">Escuchar patrón</button></article>
+      <article class="card"><span class="tag">4/4 · Arpegio</span><h3>Arpegio quebrado</h3><p>Tocá las notas del acorde una por una, con pulso constante.</p><button class="btn btn-dark btn-small" style="margin-top:12px" onclick="playAccompaniment('broken')">Escuchar patrón</button></article>
+      <article class="card"><span class="tag">4/4 · Balada / iglesia</span><h3>Progresión I–V–vi–IV</h3><p>Una secuencia habitual para practicar acompañamientos de canciones.</p><button class="btn btn-dark btn-small" style="margin-top:12px" onclick="playWorshipProgression()">Escuchar progresión</button></article>
+    </div>
+    <div class="example"><b>Rutina técnica inicial (12 minutos):</b> 2 minutos de movilidad relajada sin tensión; 4 minutos de escala lenta con manos separadas; 3 minutos de acordes en estado fundamental e inversiones; 3 minutos de acompañamiento con metrónomo. Si aparece dolor o tensión, frená y revisá postura y movimiento.</div>
+  </section>
+
+  <section id="library" class="view">
+    <div class="panel-title"><div><h2>Biblioteca de repertorio</h2><div class="muted">Melodías breves y estudios para tocar, escuchar y repetir.</div></div><span class="tag">50 melodías y estudios</span></div>
+    <div class="example">La biblioteca combina melodías tradicionales o de compositores clásicos de dominio público con estudios originales creados para esta aplicación. Son versiones didácticas breves, no ediciones completas de partituras.</div>
+    <div class="search-row"><label for="songSearch">Buscar repertorio</label><input id="songSearch" type="search" placeholder="Título, estilo o nivel…" autocomplete="off"></div>
+    <div class="filter-row" id="songFilters"></div>
+    <div class="song-grid" id="songGrid"></div>
+    <div id="songDetail" class="song-detail"></div>
+  </section>
+
+  <section id="progress" class="view">
+    <div class="panel-title"><div><h2>Mi progreso</h2><div class="muted">Revisá lo que ya practicaste y seguí avanzando.</div></div><span class="tag">Guardado local</span></div>
+    <div class="grid">
+      <div class="card"><div class="card-icon">▤</div><h3 id="progressLessons">0 / 12</h3><p>Módulos completados</p></div>
+      <div class="card"><div class="card-icon">♫</div><h3 id="progressSongs">0 / 50</h3><p>Piezas practicadas hasta el final</p></div>
+      <div class="card"><div class="card-icon">★</div><h3 id="progressScore">0</h3><p>Respuestas correctas registradas</p></div>
+    </div>
+    <div class="section-head"><div><h3>Tu recorrido</h3><p>Completá cada módulo y practicá distintas piezas.</p></div></div>
+    <div class="card"><div class="progress-track"><div class="progress-fill" id="allProgress"></div></div><p id="progressMessage" style="margin-top:12px">Todavía no hay módulos completados. ¡Empezá por la primera clase!</p></div>
+    <div class="controls" style="margin-top:16px"><button class="btn btn-outline btn-small" id="exportProgress">Exportar progreso</button><button class="btn btn-light btn-small" id="importProgress">Importar respaldo</button><input type="file" id="progressFile" accept="application/json,.json" hidden><button class="btn btn-outline btn-small" id="resetProgress">Reiniciar progreso</button></div><p class="muted">Podés guardar un respaldo JSON para trasladar tu avance a otro navegador o dispositivo. El progreso no se envía a ningún servidor.</p>
+  </section>
+</main>
+<footer class="app-footer"><strong>Academia de Piano · Estudio interactivo</strong><span>Contenido didáctico propio organizado a partir de bibliografía de teoría, armonía y métodos pianísticos.</span><span>Funciona localmente; no requiere cuenta ni conexión permanente.</span></footer>
+
+<script>
+const lessons = [
+{title:"El piano y el mapa de las notas",level:"Inicio",time:"15 min",summary:"Ubicá las notas, las octavas y los grupos de teclas.",body:"El teclado se organiza en grupos que se repiten. Las teclas blancas siguen el orden Do, Re, Mi, Fa, Sol, La y Si. Después de Si vuelve Do, pero en una octava más aguda. Las teclas negras representan alteraciones: sostenidos (♯) y bemoles (♭).",bullets:["Identificá los grupos de dos y tres teclas negras.","Encontrá todos los Do del teclado.","Recordá que una octava contiene 12 semitonos."],example:"En el sistema internacional, Do = C, Re = D, Mi = E, Fa = F, Sol = G, La = A y Si = B.",q:"¿Qué nota aparece inmediatamente después de Si?",opts:["La","Do","Re","Fa"],a:1,why:"Después de Si vuelve Do. El patrón de siete nombres naturales se repite."},
+{title:"El pentagrama y la clave de sol",level:"Inicio",time:"20 min",summary:"Aprendé a leer las notas en el pentagrama.",body:"El pentagrama tiene cinco líneas y cuatro espacios. La clave de sol indica que la segunda línea desde abajo representa Sol4. Desde allí se ordenan las demás notas, alternando líneas y espacios.",bullets:["Líneas de clave de sol, de abajo hacia arriba: Mi–Sol–Si–Re–Fa.","Espacios: Fa–La–Do–Mi.","Las notas más agudas o graves pueden necesitar líneas adicionales."],example:"Truco para las líneas: Mi, Sol, Si, Re, Fa. Para los espacios: Fa, La, Do, Mi.",q:"En clave de sol, ¿qué nota está en la segunda línea desde abajo?",opts:["Mi","Sol","Si","Re"],a:1,why:"La segunda línea desde abajo es Sol4; por eso la clave se llama clave de sol."},
+{title:"Figuras musicales y silencios",level:"Inicio",time:"20 min",summary:"Comprendé cuánto dura cada figura.",body:"Las figuras representan la duración de los sonidos. En un compás de 4/4, la redonda dura cuatro pulsos, la blanca dos, la negra uno, la corchea medio y la semicorchea un cuarto de pulso. Cada figura tiene un silencio equivalente.",bullets:["Redonda = 4 negras.","Blanca = 2 negras.","Negra = 2 corcheas.","Corchea = 2 semicorcheas."],example:"Una blanca más dos negras suma 2 + 1 + 1 = 4 tiempos: completa un compás de 4/4.",q:"¿Cuántas negras equivalen a una blanca?",opts:["Una","Dos","Tres","Cuatro"],a:1,why:"La blanca dura dos tiempos y la negra dura un tiempo."},
+{title:"Pulso, tempo y compás",level:"Inicio",time:"20 min",summary:"Sentí el pulso y entendé cómo se agrupa.",body:"El pulso es la referencia regular que sentimos al escuchar música. El tempo indica su velocidad y se mide en BPM. El compás organiza los pulsos en grupos. En 4/4 hay cuatro pulsos de negra por compás; en 3/4 hay tres.",bullets:["Practicá contar 1–2–3–4 de manera constante.","El número de arriba indica cuántas unidades se agrupan.","El número de abajo indica qué figura representa la unidad."],example:"En 3/4 podés contar un vals: UNO-dos-tres, UNO-dos-tres.",q:"¿Cuántos pulsos de negra tiene normalmente un compás de 3/4?",opts:["Dos","Tres","Cuatro","Seis"],a:1,why:"El 3/4 agrupa tres negras por compás."},
+{title:"Tonos, semitonos e intervalos",level:"Básico",time:"25 min",summary:"Medí la distancia entre dos notas.",body:"En el piano, un semitono es la distancia entre dos teclas consecutivas, blancas o negras. Un tono equivale a dos semitonos. Un intervalo es la distancia entre dos notas y se nombra por su número: segunda, tercera, cuarta, quinta, sexta, séptima u octava.",bullets:["Mi–Fa es un semitono.","Si–Do es un semitono.","Do–Re es un tono.","Do–Sol es una quinta justa."],example:"Tocá Do y después Re: hay dos semitonos de distancia. Tocá Mi y Fa: hay un semitono.",q:"¿Cuántos semitonos forman un tono?",opts:["Uno","Dos","Tres","Cuatro"],a:1,why:"Un tono equivale a dos semitonos."},
+{title:"Escala mayor y digitación",level:"Básico",time:"25 min",summary:"Construí Do mayor y empezá a coordinar los dedos.",body:"La escala mayor sigue el patrón de tonos y semitonos: T–T–S–T–T–T–S. Do mayor utiliza las notas Do, Re, Mi, Fa, Sol, La y Si, sin teclas negras. La digitación ayuda a que la mano se desplace con comodidad.",bullets:["Mano derecha en Do mayor: 1–2–3, paso del pulgar, 1–2–3–4–5.","Mano izquierda: 5–4–3–2–1, cruce, 3–2–1.","Practicá lento, con sonido parejo y muñeca relajada."],example:"Do–Re–Mi–Fa–Sol–La–Si–Do. Escuchá cómo la escala encuentra reposo al llegar al Do superior.",q:"¿Qué patrón de distancias tiene la escala mayor?",opts:["T–S–T–T–S–T–T","T–T–S–T–T–T–S","S–T–T–S–T–T–T","T–T–T–T–T–T–S"],a:1,why:"La escala mayor sigue tono, tono, semitono, tono, tono, tono, semitono."},
+{title:"Escalas menores",level:"Básico",time:"25 min",summary:"Conocé la sonoridad menor natural, armónica y melódica.",body:"La escala menor natural tiene el patrón T–S–T–T–S–T–T. La menor armónica eleva el séptimo grado; la menor melódica clásica eleva el sexto y el séptimo al subir, y suele volver a la forma natural al bajar.",bullets:["La menor natural: La–Si–Do–Re–Mi–Fa–Sol–La.","La menor armónica: se eleva Sol a Sol♯.","Escuchá la diferencia entre el séptimo grado natural y el sensible."],example:"Do mayor y La menor natural comparten las mismas notas, pero tienen distinto centro tonal.",q:"¿Qué grado se eleva en la escala menor armónica?",opts:["Segundo","Cuarto","Sexto","Séptimo"],a:3,why:"La menor armónica eleva el séptimo grado para crear una sensible que conduce a la tónica."},
+{title:"Armaduras y tonalidades",level:"Intermedio",time:"25 min",summary:"Entendé sostenidos, bemoles y tonalidades.",body:"La armadura aparece al comienzo del pentagrama y señala alteraciones que se mantienen durante la pieza, salvo indicación contraria. El orden de sostenidos es Fa–Do–Sol–Re–La–Mi–Si; el de bemoles es Si–Mi–La–Re–Sol–Do–Fa.",bullets:["Do mayor y La menor no tienen alteraciones en la armadura.","Sol mayor tiene un sostenido: Fa♯.","Fa mayor tiene un bemol: Si♭."],example:"Si encontrás un Fa♯ en la armadura, esa alteración se aplica a los Fa de cualquier octava, salvo que aparezca un becuadro.",q:"¿Qué alteración tiene Sol mayor en su armadura?",opts:["Si♭","Fa♯","Do♯","Ninguna"],a:1,why:"Sol mayor tiene un sostenido: Fa♯."},
+{title:"Triadas y acordes",level:"Intermedio",time:"30 min",summary:"Construí acordes mayores, menores y disminuidos.",body:"Una triada se forma superponiendo terceras: fundamental, tercera y quinta. La triada mayor tiene tercera mayor y quinta justa; la menor, tercera menor y quinta justa; la disminuida, tercera menor y quinta disminuida.",bullets:["Do mayor: Do–Mi–Sol.","La menor: La–Do–Mi.","Si disminuido: Si–Re–Fa."],example:"Tocá Do–Mi–Sol juntos. Después bajá Mi a Mi♭: el acorde se vuelve Do menor.",q:"¿Qué notas forman la triada de Do mayor?",opts:["Do–Mi–Sol","Do–Mi♭–Sol","Do–Fa–La","Do–Re–Sol"],a:0,why:"La triada mayor se construye con fundamental, tercera mayor y quinta justa."},
+{title:"Inversiones y conducción de voces",level:"Intermedio",time:"30 min",summary:"Mové los acordes sin perder su identidad.",body:"Un acorde está en estado fundamental cuando su nota raíz está en el bajo. En primera inversión, la tercera queda en el bajo; en segunda inversión, la quinta. Las inversiones permiten conectar acordes con movimientos pequeños.",bullets:["Do–Mi–Sol: estado fundamental.","Mi–Sol–Do: primera inversión.","Sol–Do–Mi: segunda inversión."],example:"Practicá Do mayor, Fa mayor y Sol mayor usando la inversión más cercana para que la mano no salte demasiado.",q:"¿Qué nota queda en el bajo en la primera inversión de Do mayor?",opts:["Do","Mi","Sol","Si"],a:1,why:"En primera inversión la tercera del acorde, Mi, queda como nota más grave."},
+{title:"Funciones armónicas y cadencias",level:"Intermedio",time:"30 min",summary:"Comprendé tónica, dominante y subdominante.",body:"En una tonalidad, los acordes cumplen funciones. La tónica (I) da sensación de reposo; la dominante (V) genera tensión y suele resolver en I; la subdominante (IV) prepara o amplía el movimiento armónico.",bullets:["En Do mayor: I = Do, IV = Fa, V = Sol.","La cadencia V–I produce una resolución fuerte.","Probá I–V–vi–IV como progresión popular."],example:"Tocá Sol mayor y después Do mayor. Escuchá cómo la tensión del acorde dominante se resuelve en la tónica.",q:"En Do mayor, ¿cuál es el acorde dominante?",opts:["Fa mayor","La menor","Sol mayor","Do mayor"],a:2,why:"El quinto grado de Do mayor es Sol; su acorde es Sol mayor."},
+{title:"Lectura a dos manos y primeras piezas",level:"Intermedio",time:"35 min",summary:"Uní lectura, coordinación, técnica y expresión.",body:"La partitura de piano suele utilizar dos pentagramas unidos: clave de sol para la mano derecha y clave de fa para la izquierda. Al principio conviene estudiar cada mano por separado, contar en voz alta y unirlas muy lentamente.",bullets:["Leé y tocá una frase corta por vez.","Practicá cada mano hasta que resulte estable.","Uní las manos a un tempo más lento que el final.","Agregá articulación, dinámica y fraseo cuando las notas estén seguras."],example:"Empezá con melodías de cinco dedos y acompañamientos sencillos de tónica y dominante. Después avanzá a piezas de Bach, Beethoven y otros autores.",q:"¿Qué conviene hacer antes de unir ambas manos?",opts:["Tocar más rápido","Practicar cada mano por separado","Memorizar sin contar","Usar siempre el pedal"],a:1,why:"Separar las manos permite resolver las dificultades de cada parte antes de coordinarlas."}
+];
+
+const songs = [
+{id:1,title:"Oda a la alegría",style:"Clásica",level:"Inicial",origin:"Beethoven · melodía didáctica",tempo:90,notes:[64,64,65,67,67,65,64,62,60,60,62,64,64,62,62]},
+{id:2,title:"Estrellita",style:"Tradicional",level:"Inicial",origin:"Tradicional · melodía popular",tempo:84,notes:[60,60,67,67,69,69,67,65,65,64,64,62,62,60]},
+{id:3,title:"Para Elisa (inicio)",style:"Clásica",level:"Básico",origin:"Beethoven · motivo inicial simplificado",tempo:88,notes:[76,75,76,75,76,71,74,72,69]},
+{id:4,title:"Greensleeves",style:"Tradicional",level:"Básico",origin:"Melodía tradicional inglesa",tempo:76,notes:[69,72,74,76,77,76,74,71,67,69,71,72,69]},
+{id:5,title:"Amazing Grace",style:"Tradicional",level:"Inicial",origin:"Himno tradicional · fragmento didáctico",tempo:72,notes:[67,72,76,72,76,74,72,69,67,64]},
+{id:6,title:"Minueto en Sol (tema)",style:"Clásica",level:"Intermedio",origin:"Petzold · tema simplificado",tempo:96,notes:[74,67,69,71,72,74,67,67,76,72,74,76,78,79]},
+{id:7,title:"Preludio de Do",style:"Clásica",level:"Básico",origin:"Bach · estudio de arpegios inspirado en BWV 846",tempo:72,notes:[60,64,67,72,76,72,67,64,60,64,67,72]},
+{id:8,title:"Vals de cinco dedos",style:"Estudio",level:"Inicial",origin:"Estudio original",tempo:90,notes:[60,64,67,64,65,69,72,69,67,64,60,64]},
+{id:9,title:"Blues en Do",style:"Blues",level:"Básico",origin:"Estudio original de blues",tempo:92,notes:[60,63,65,66,67,70,67,65,63,60,67,65]},
+{id:10,title:"Jazz de domingo",style:"Jazz",level:"Intermedio",origin:"Estudio original con color jazzístico",tempo:108,notes:[62,65,69,72,69,65,64,67,70,74,72,69]},
+{id:11,title:"Tango breve",style:"Tango",level:"Básico",origin:"Estudio original",tempo:104,notes:[69,72,76,75,76,72,69,68,69,72,74,76]},
+{id:12,title:"Cumbia del teclado",style:"Latino",level:"Inicial",origin:"Estudio original",tempo:100,notes:[60,64,67,64,67,69,67,64,60,64,67,72]},
+{id:13,title:"Riff de rock",style:"Rock",level:"Básico",origin:"Estudio original",tempo:112,notes:[64,67,69,67,64,62,64,71,69,67,64]},
+{id:14,title:"Balada sencilla",style:"Pop",level:"Inicial",origin:"Estudio original",tempo:76,notes:[60,62,64,67,76,74,72,67,69,67,64,62]},
+{id:15,title:"Bossa al atardecer",style:"Jazz",level:"Intermedio",origin:"Estudio original",tempo:96,notes:[65,69,72,76,74,72,69,67,65,69,72,74]},
+{id:16,title:"Danza folklórica",style:"Folklore",level:"Básico",origin:"Estudio original",tempo:108,notes:[67,71,74,71,69,72,74,79,74,72,69,67]},
+{id:17,title:"Ragtime miniatura",style:"Jazz",level:"Intermedio",origin:"Estudio original",tempo:116,notes:[60,64,67,72,71,67,64,62,60,64,69,72]},
+{id:18,title:"Canción de cuna",style:"Estudio",level:"Inicial",origin:"Estudio original",tempo:68,notes:[64,67,71,67,69,72,71,67,64,62,60]},
+{id:19,title:"Danza barroca",style:"Clásica",level:"Intermedio",origin:"Estudio original de estilo barroco",tempo:104,notes:[62,66,69,74,73,69,66,62,66,69,74,78]},
+{id:20,title:"Arpegio cinematográfico",style:"Estudio",level:"Básico",origin:"Estudio original",tempo:80,notes:[69,72,76,81,79,76,72,69,67,71,74,79]},
+{id:21,title:"Reggae tranquilo",style:"Latino",level:"Inicial",origin:"Estudio original",tempo:88,notes:[60,64,67,64,60,64,69,67,60,64,67,72]},
+{id:22,title:"Funk de cinco notas",style:"Rock",level:"Intermedio",origin:"Estudio original",tempo:112,notes:[64,67,69,71,74,71,69,67,64,67,71,74]},
+{id:23,title:"Marcha en Do",style:"Estudio",level:"Inicial",origin:"Estudio original",tempo:104,notes:[60,67,64,67,65,69,67,72,60,67,64,60]},
+{id:24,title:"Blues en Sol",style:"Blues",level:"Básico",origin:"Estudio original",tempo:96,notes:[67,70,72,73,74,77,74,72,70,67,74,72]},
+{id:25,title:"Bolero sencillo",style:"Latino",level:"Básico",origin:"Estudio original",tempo:76,notes:[64,68,71,68,66,69,71,76,74,71,68,66]},
+{id:26,title:"Chacarera breve",style:"Folklore",level:"Básico",origin:"Estudio original",tempo:112,notes:[67,71,74,71,69,72,74,79,76,74,72,69]},
+{id:27,title:"Minimal electrónico",style:"Pop",level:"Intermedio",origin:"Estudio original",tempo:100,notes:[69,72,76,72,69,76,72,69,67,71,74,71]},
+{id:28,title:"Vals en Fa",style:"Estudio",level:"Básico",origin:"Estudio original",tempo:90,notes:[65,69,72,69,67,71,74,71,65,69,72,77]},
+{id:29,title:"Latín jazz",style:"Jazz",level:"Intermedio",origin:"Estudio original",tempo:108,notes:[62,65,69,72,74,72,69,65,67,70,74,77]},
+{id:30,title:"Estudio de arpegios",style:"Estudio",level:"Intermedio",origin:"Estudio original",tempo:84,notes:[60,64,67,72,67,64,62,65,69,74,69,65,60]},
+{id:31,title:"Gavota sencilla",style:"Clásica",level:"Básico",origin:"Estudio original de carácter barroco",tempo:92,notes:[67,72,71,72,74,76,74,72,71,69,67,69,71,67]},
+{id:32,title:"Danza de salón",style:"Clásica",level:"Básico",origin:"Estudio original de carácter clásico",tempo:100,notes:[60,64,67,72,71,67,69,72,76,74,71,67,64,60]},
+{id:33,title:"Pequeña sonatina",style:"Clásica",level:"Intermedio",origin:"Estudio original inspirado en formas clásicas",tempo:108,notes:[60,64,67,72,76,74,72,71,69,67,64,67,72,67,64,60]},
+{id:34,title:"Coral de la mañana",style:"Estudio",level:"Básico",origin:"Estudio original de carácter coral",tempo:72,notes:[60,64,67,67,69,67,64,62,60,62,64,67,65,64,60]},
+{id:35,title:"Himno de esperanza",style:"Música de iglesia",level:"Inicial",origin:"Melodía original para práctica de acompañamiento",tempo:76,notes:[60,64,67,69,67,64,62,64,67,72,71,69,67,64,60]},
+{id:36,title:"Balada de domingo",style:"Pop",level:"Inicial",origin:"Estudio original",tempo:74,notes:[64,67,69,72,71,69,67,64,62,64,67,69,67,64]},
+{id:37,title:"Zamba del río",style:"Folklore",level:"Básico",origin:"Estudio original de inspiración folklórica",tempo:96,notes:[67,71,74,76,74,71,69,72,74,79,76,74,71,67]},
+{id:38,title:"Milonga breve",style:"Tango",level:"Básico",origin:"Estudio original de inspiración rioplatense",tempo:108,notes:[60,63,67,70,69,67,63,60,62,65,69,72,70,69]},
+{id:39,title:"Cueca de cinco notas",style:"Folklore",level:"Inicial",origin:"Estudio original",tempo:112,notes:[60,64,67,69,67,64,62,65,69,72,69,65,64,60]},
+{id:40,title:"Chamamé sencillo",style:"Folklore",level:"Básico",origin:"Estudio original",tempo:104,notes:[67,69,71,74,72,71,69,67,64,67,69,72,71,69]},
+{id:41,title:"Candombe de teclas",style:"Latino",level:"Básico",origin:"Estudio original",tempo:110,notes:[60,60,64,67,64,60,67,69,67,64,60,64,67,72]},
+{id:42,title:"Son cubano mini",style:"Latino",level:"Básico",origin:"Estudio original",tempo:104,notes:[60,64,67,69,67,64,60,62,65,69,72,69,65,62]},
+{id:43,title:"Bolero nocturno",style:"Latino",level:"Inicial",origin:"Estudio original",tempo:72,notes:[60,64,67,72,71,69,67,64,62,64,67,69,72,67]},
+{id:44,title:"Swing en Do",style:"Jazz",level:"Intermedio",origin:"Estudio original",tempo:116,notes:[60,64,67,70,72,70,67,64,62,65,69,72,74,72]},
+{id:45,title:"Blues lento",style:"Blues",level:"Básico",origin:"Estudio original",tempo:68,notes:[60,63,65,66,67,70,67,65,63,60,62,63,65,60]},
+{id:46,title:"Rock de estadio",style:"Rock",level:"Básico",origin:"Estudio original",tempo:120,notes:[60,60,67,67,69,67,64,60,62,62,69,69,67,64,60]},
+{id:47,title:"Pop en arpegios",style:"Pop",level:"Básico",origin:"Estudio original",tempo:92,notes:[60,64,67,72,67,64,62,65,69,74,69,65,60,64]},
+{id:48,title:"Pulso electrónico",style:"Pop",level:"Inicial",origin:"Estudio original",tempo:100,notes:[60,60,64,60,67,60,64,60,62,62,65,62,69,62]},
+{id:49,title:"Estudio de notas repetidas",style:"Estudio",level:"Básico",origin:"Estudio original para control de articulación",tempo:88,notes:[64,64,64,67,67,67,69,69,69,67,67,67,64,64,64]},
+{id:50,title:"Arpegios quebrados en Sol",style:"Estudio",level:"Intermedio",origin:"Estudio original para coordinación",tempo:80,notes:[67,71,74,79,74,71,67,71,74,79,83,79,74,71,67]}
+];
+
+let saved={};
+try{saved=JSON.parse(localStorage.getItem("academiaPianoProgress")||"{}")||{}}catch(e){}
+saved.lessons=saved.lessons||[];saved.songs=saved.songs||[];saved.score=saved.score||0;saved.practiceChecks=saved.practiceChecks||[];
+let activeView="home", currentLesson=null, selectedSong=1, songIndex=0, songPractice=false, keyLabels=true, pianoMode="free", targetMidi=64;
+let audioCtx=null, metroTimer=null, metroBeat=0, currentInterval=null, currentRhythm=null, staffTarget=64, staffClef="treble", keyboardStartMidi=60, songSearch="";
+function persist(){try{localStorage.setItem("academiaPianoProgress",JSON.stringify(saved))}catch(e){}}
+function go(view){activeView=view;document.querySelectorAll(".view").forEach(x=>x.classList.toggle("active",x.id===view));document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.view===view));if(view==="course")renderLessons();if(view==="studio"){studioRenderList();studioRenderScore();studioUpdate()}if(view==="library")renderLibrary();if(view==="tech")renderTechnique();if(view==="progress")renderProgress();if(view==="piano")renderPiano();window.scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.view)));
+function refreshHome(){let pct=Math.round(saved.lessons.length/lessons.length*100);document.getElementById("homePercent").textContent=pct+"%";document.getElementById("homeProgress").style.width=pct+"%";document.getElementById("courseProgress").style.width=pct+"%";document.getElementById("lessonCount").textContent=saved.lessons.length+" / 12 completados"}
+function renderLessons(){refreshHome();let list=document.getElementById("lessonList");list.innerHTML=lessons.map((l,i)=>`<div class="lesson-row ${saved.lessons.includes(i)?"done":""}"><div class="lesson-num">${saved.lessons.includes(i)?"✓":String(i+1).padStart(2,"0")}</div><div><h3>${l.title}</h3><p>${l.level} · ${l.time} · ${l.summary}</p></div><button class="btn btn-light btn-small" onclick="openLesson(${i})">${saved.lessons.includes(i)?"Repasar":"Abrir clase"}</button></div>`).join("")}
+function openLesson(i){currentLesson=i;let l=lessons[i];document.getElementById("lessonDetail").innerHTML=`<div class="lesson-body"><span class="tag">MÓDULO ${i+1} · ${l.level} · ${l.time}</span><h2>${l.title}</h2><p>${l.body}</p><ul>${l.bullets.map(x=>`<li>${x}</li>`).join("")}</ul><div class="example">${l.example}</div><div class="quiz"><h3>Comprobá lo aprendido</h3><p>${l.q}</p><div class="choices">${l.opts.map((o,j)=>`<button class="choice" onclick="answerLesson(${i},${j},this)">${o}</button>`).join("")}</div><div class="feedback" id="lessonFeedback"></div></div><div class="controls" style="margin-top:16px"><button class="btn btn-dark btn-small" onclick="go('course')">Volver al temario</button><button class="btn btn-primary btn-small" onclick="go('piano')">Practicar en el piano →</button></div></div>`;document.getElementById("lessonDetail").scrollIntoView({behavior:"smooth",block:"start"})}
+function answerLesson(i,j,el){let l=lessons[i],buttons=el.parentElement.querySelectorAll("button");buttons.forEach((b,k)=>{b.disabled=true;if(k===l.a)b.classList.add("correct");else if(k===j)b.classList.add("wrong")});let f=document.getElementById("lessonFeedback");if(j===l.a){f.textContent="¡Correcto! "+l.why;f.style.color="var(--green)";if(!saved.lessons.includes(i)){saved.lessons.push(i);saved.score++;persist();renderLessons();refreshHome()}}else{f.textContent="Todavía no. "+l.why;f.style.color="var(--red)"}}
+function getAudio(){if(!audioCtx){audioCtx=new(window.AudioContext||window.webkitAudioContext)()}if(audioCtx.state==="suspended")audioCtx.resume();return audioCtx}
+function playMidi(midi,duration=.42,when=0){let c=getAudio(),o=c.createOscillator(),g=c.createGain(),t=c.currentTime+when;o.type="triangle";o.frequency.value=440*Math.pow(2,(midi-69)/12);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.02);g.gain.setValueAtTime(.12,t+Math.max(.03,duration*.72));g.gain.exponentialRampToValueAtTime(.0001,t+duration);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+duration+.03)}
+function noteName(m){let names=["Do","Do♯","Re","Re♯","Mi","Fa","Fa♯","Sol","Sol♯","La","La♯","Si"];let n=names[m%12],oct=Math.floor(m/12)-1;return n+oct}
+function noteShort(m){return noteName(m).replace("♯","#")}
+function renderPiano(){buildKeyboard();renderStaff()}
+function buildKeyboard(){let kb=document.getElementById("keyboard");if(!kb)return;kb.innerHTML="";kb.classList.toggle("key-label-hidden",!keyLabels);let whiteCount=0;for(let m=keyboardStartMidi;m<keyboardStartMidi+24;m++){let pc=m%12,isBlack=[1,3,6,8,10].includes(pc);if(!isBlack){let k=document.createElement("button");k.className="key-white";k.dataset.midi=m;k.innerHTML=`<span>${keyLabels?noteShort(m):""}</span>`;k.addEventListener("click",()=>keyPressed(m,k));kb.appendChild(k);whiteCount++}else{let key=document.createElement("button");key.className="key-black";key.dataset.midi=m;key.style.left=`calc(${(whiteCount/14)*100}% - 2.1%)`;key.innerHTML=`<span>${keyLabels?noteShort(m):""}</span>`;key.addEventListener("click",()=>keyPressed(m,key));kb.appendChild(key)}}document.getElementById("pianoOctaves").textContent=staffClef==="bass"?"Do3–Si4 · registro grave":"Do4–Si5 · registro agudo"}
+function keyPressed(m,key){playMidi(m,.38);key.classList.add("pressed");setTimeout(()=>key.classList.remove("pressed"),160);if(pianoMode==="staff"){if(m===staffTarget){document.getElementById("pianoStatus").textContent="¡Correcto! Leíste y encontraste "+noteName(m)+" en el pentagrama.";document.getElementById("staffPrompt").textContent="¡Bien hecho! Tocá “Nueva nota” para seguir.";saved.score++;persist()}else{document.getElementById("pianoStatus").textContent="Tocaste "+noteName(m)+". Volvé a mirar la posición de la nota en el pentagrama."}}else if(pianoMode==="find"){if(m===targetMidi){document.getElementById("pianoStatus").textContent="¡Muy bien! Encontraste "+noteName(m)+".";saved.score++;persist();targetMidi=pickTarget();document.getElementById("findTarget").textContent=noteName(targetMidi)}else document.getElementById("pianoStatus").textContent="Esa es "+noteName(m)+". Buscá "+noteName(targetMidi)+"."}else if(pianoMode==="song"&&songPractice){let s=songs.find(x=>x.id===selectedSong);if(m===s.notes[songIndex]){songIndex++;if(songIndex>=s.notes.length){document.getElementById("pianoStatus").textContent="¡Excelente! Terminaste "+s.title+".";if(!saved.songs.includes(s.id))saved.songs.push(s.id);saved.score++;persist();songPractice=false;updateSongDetail()}else{document.getElementById("pianoStatus").textContent="¡Correcto! Próxima nota: "+noteName(s.notes[songIndex])+" ("+(songIndex+1)+"/"+s.notes.length+").";updateSongDetail()}}else document.getElementById("pianoStatus").textContent="Escuchá o mirá la siguiente nota: "+noteName(s.notes[songIndex])+"."}else{document.getElementById("pianoStatus").textContent="Tocaste "+noteName(m)+"."}}
+function pickTarget(){let a=[60,62,64,65,67,69,71,72,74,76,77,79,81,83];return a[Math.floor(Math.random()*a.length)]}
+document.getElementById("modeFree").onclick=()=>{pianoMode="free";songPractice=false;keyboardStartMidi=staffClef==="bass"?48:60;buildKeyboard();document.getElementById("pianoStatus").textContent="Modo libre: tocá cualquier tecla para escucharla.";document.getElementById("modeFree").className="btn btn-dark btn-small";document.getElementById("modeFind").className="btn btn-light btn-small"};
+document.getElementById("modeFind").onclick=()=>{pianoMode="find";songPractice=false;keyboardStartMidi=60;buildKeyboard();targetMidi=pickTarget();document.getElementById("pianoStatus").innerHTML='Buscá la nota <b id="findTarget">'+noteName(targetMidi)+'</b> en el teclado.';document.getElementById("modeFind").className="btn btn-dark btn-small";document.getElementById("modeFree").className="btn btn-light btn-small"};
+document.getElementById("toggleLabels").onclick=()=>{keyLabels=!keyLabels;document.getElementById("toggleLabels").textContent=keyLabels?"Ocultar nombres":"Mostrar nombres";buildKeyboard()};
+document.getElementById("playScale").onclick=()=>[60,62,64,65,67,69,71,72,71,69,67,65,64,62,60].forEach((n,i)=>playMidi(n,.28,i*.31));
+document.getElementById("resetPiano").onclick=()=>{pianoMode="free";songPractice=false;document.getElementById("pianoStatus").textContent="Práctica reiniciada. Tocá libremente o elegí un desafío."};
+function staffSvg(midi,clef="treble"){
+  const pc=midi%12, sharp=[1,3,6,8,10].includes(pc);
+  const naturalPc=sharp?pc-1:pc;
+  const letterByPc={0:["Do",0],2:["Re",1],4:["Mi",2],5:["Fa",3],7:["Sol",4],9:["La",5],11:["Si",6]};
+  const [letter,letterIndex]=letterByPc[naturalPc]||["Do",0];
+  const naturalMidi=midi-(sharp?1:0), octave=Math.floor(naturalMidi/12)-1;
+  const diatonic=octave*7+letterIndex;
+  const reference=clef==="bass"?(2*7+4):(4*7+2); // G2 bass; E4 treble, bottom line
+  const step=diatonic-reference, y=150-step*10;
+  let ledger="";
+  if(y>150){for(let ly=170;ly<=y;ly+=20)ledger+=`<line x1="112" y1="${ly}" x2="150" y2="${ly}" stroke="#596575" stroke-width="1.3"/>`}
+  if(y<70){for(let ly=50;ly>=y;ly-=20)ledger+=`<line x1="112" y1="${ly}" x2="150" y2="${ly}" stroke="#596575" stroke-width="1.3"/>`}
+  const clefGlyph=clef==="bass"?"𝄢":"𝄞";
+  return `<svg viewBox="0 0 360 190" role="img" aria-label="Nota en pentagrama de clave de ${clef==="bass"?"fa":"sol"}"><text x="18" y="142" font-size="78" fill="#26374e">${clefGlyph}</text>${[70,90,110,130,150].map(lineY=>`<line x1="65" y1="${lineY}" x2="335" y2="${lineY}" stroke="#596575" stroke-width="1.3"/>`).join("")}${ledger}${sharp?`<text x="105" y="${y+5}" font-size="20" fill="#17243a">♯</text>`:""}<ellipse cx="132" cy="${y}" rx="9" ry="6.5" fill="#17243a" transform="rotate(-18 132 ${y})"/><line x1="140" y1="${y}" x2="140" y2="${y-38}" stroke="#17243a" stroke-width="2"/></svg>`
+}
+function renderStaff(){let box=document.getElementById("staffQuiz");if(box)box.innerHTML=staffSvg(staffTarget,staffClef)}
+function pickStaffTarget(){let notes=staffClef==="bass"?[48,50,52,53,55,57,59,60,62,64,65,67,69,71]:[60,62,64,65,67,69,71,72,74,76,77,79,81,83];return notes[Math.floor(Math.random()*notes.length)]}
+function newStaff(){staffTarget=pickStaffTarget();keyboardStartMidi=staffClef==="bass"?48:60;pianoMode="staff";songPractice=false;buildKeyboard();renderStaff();document.getElementById("staffPrompt").textContent="Encontrá la nota en el teclado.";document.getElementById("pianoStatus").textContent="Desafío de lectura activo: buscá la nota que aparece en la clave de "+(staffClef==="bass"?"Fa":"Sol")+"."}
+document.getElementById("newStaffNote").onclick=newStaff;
+document.getElementById("clefSelect").addEventListener("change",e=>{staffClef=e.target.value;newStaff()});
+const rhythmVals=[{sym:"𝅝",name:"Redonda",beats:4},{sym:"𝅗𝅥",name:"Blanca",beats:2},{sym:"♩",name:"Negra",beats:1},{sym:"♪",name:"Corchea",beats:.5},{sym:"𝅘𝅥𝅯",name:"Semicorchea",beats:.25}];
+function newRhythm(){currentRhythm=rhythmVals[Math.floor(Math.random()*rhythmVals.length)];document.getElementById("rhythmQuestion").textContent=currentRhythm.sym;document.getElementById("rhythmFeedback").textContent="";let opts=[.25,.5,1,2,4].sort(()=>Math.random()-.5);document.getElementById("rhythmChoices").innerHTML=opts.map(v=>`<button class="choice" onclick="answerRhythm(${v},this)">${v} ${v===1?"tiempo":"tiempos"}</button>`).join("")}
+function answerRhythm(v,el){let btns=el.parentElement.querySelectorAll("button");btns.forEach(b=>{b.disabled=true;if(Number(b.textContent.split(" ")[0])===currentRhythm.beats)b.classList.add("correct");else if(b===el)b.classList.add("wrong")});let f=document.getElementById("rhythmFeedback");if(v===currentRhythm.beats){f.textContent="¡Correcto! "+currentRhythm.name+" = "+currentRhythm.beats+" tiempos.";f.style.color="var(--green)";saved.score++;persist()}else{f.textContent="La respuesta es "+currentRhythm.beats+" tiempos. "+currentRhythm.name+".";f.style.color="var(--red)"}}
+document.getElementById("nextRhythm").onclick=newRhythm;
+function metroTick(){let c=getAudio(),o=c.createOscillator(),g=c.createGain();o.frequency.value=metroBeat%4===0?1100:760;g.gain.setValueAtTime(.0001,c.currentTime);g.gain.exponentialRampToValueAtTime(.17,c.currentTime+.005);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.07);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.08);document.querySelectorAll(".beat-dot").forEach((d,i)=>d.classList.toggle("on",i===metroBeat%4));metroBeat++}
+function stopMetro(){if(metroTimer){clearInterval(metroTimer);metroTimer=null}document.querySelectorAll(".beat-dot").forEach(d=>d.classList.remove("on"))}
+document.getElementById("metroStart").onclick=()=>{stopMetro();metroBeat=0;metroTick();metroTimer=setInterval(metroTick,60000/Number(document.getElementById("bpm").value))};
+document.getElementById("metroStop").onclick=stopMetro;
+document.getElementById("bpm").oninput=e=>{let v=Number(e.target.value);document.getElementById("bpmValue").textContent=v;document.getElementById("bpmRead").textContent=v;if(metroTimer){stopMetro();document.getElementById("metroStart").click()}};
+document.addEventListener("visibilitychange",()=>{if(document.hidden)stopMetro()});
+const intervals=[{s:2,n:"Segunda mayor"},{s:3,n:"Tercera menor"},{s:4,n:"Tercera mayor"},{s:5,n:"Cuarta justa"},{s:7,n:"Quinta justa"},{s:12,n:"Octava justa"}];
+function newInterval(){currentInterval=intervals[Math.floor(Math.random()*intervals.length)];let opts=[...intervals].sort(()=>Math.random()-.5);document.getElementById("intervalChoices").innerHTML=opts.map(x=>`<button class="choice" onclick="answerInterval(${x.s},this)">${x.n}</button>`).join("");document.getElementById("intervalFeedback").textContent=""}
+function playCurrentInterval(){if(!currentInterval)newInterval();let root=60;playMidi(root,.5,0);playMidi(root+currentInterval.s,.6,.65)}
+function answerInterval(s,el){let btns=el.parentElement.querySelectorAll("button");btns.forEach(b=>{b.disabled=true;if(b.textContent===currentInterval.n)b.classList.add("correct");else if(b===el)b.classList.add("wrong")});let f=document.getElementById("intervalFeedback");if(s===currentInterval.s){f.textContent="¡Muy bien! Reconociste "+currentInterval.n+".";f.style.color="var(--green)";saved.score++;persist()}else{f.textContent="Era "+currentInterval.n+". Volvé a escucharlo y compará la distancia.";f.style.color="var(--red)"}}
+document.getElementById("playInterval").onclick=playCurrentInterval;document.getElementById("newInterval").onclick=()=>{newInterval();playCurrentInterval()};
+let activeFilter="Todos";
+function renderLibrary(){let filters=["Todos","Clásica","Tradicional","Estudio","Blues","Jazz","Tango","Latino","Rock","Pop","Folklore","Música de iglesia"];document.getElementById("songFilters").innerHTML=filters.map(f=>`<button class="${f===activeFilter?"active":""}" onclick="setFilter('${f}')">${f}</button>`).join("");let input=document.getElementById("songSearch");if(input){input.value=songSearch;input.oninput=e=>setSongSearch(e.target.value)}renderSongCards();if(selectedSong)updateSongDetail()}
+function renderSongCards(){let q=songSearch.trim().toLocaleLowerCase("es");let visible=songs.filter(s=>(activeFilter==="Todos"||s.style===activeFilter)&&(!q||[s.title,s.style,s.level,s.origin].join(" ").toLocaleLowerCase("es").includes(q)));document.getElementById("songGrid").innerHTML=visible.map(s=>`<article class="song-card"><div class="card-top"><span class="tag">${s.style}</span>${saved.songs.includes(s.id)?'<span style="color:var(--green);font-size:12px">✓ Practicada</span>':''}</div><h3>${s.title}</h3><p>${s.level} · ${s.tempo} BPM</p><p>${s.origin}</p><button class="btn btn-light btn-small" onclick="selectSong(${s.id})">Abrir práctica</button></article>`).join("");if(!visible.length)document.getElementById("songGrid").innerHTML='<div class="empty">No hay piezas que coincidan con la búsqueda.</div>'}
+function setSongSearch(value){songSearch=value;renderSongCards()}
+function setFilter(f){activeFilter=f;renderLibrary()}
+function selectSong(id){selectedSong=id;songIndex=0;songPractice=false;updateSongDetail();document.getElementById("songDetail").scrollIntoView({behavior:"smooth",block:"start"})}
+function melodySvg(notes){const letterMap=["Do","Do","Re","Re","Mi","Fa","Fa","Sol","Sol","La","La","Si"];const naturalOffset=[0,0,2,2,4,5,5,7,7,9,9,11];const letterIndex={Do:0,Re:1,Mi:2,Fa:3,Sol:4,La:5,Si:6};let width=Math.max(420,notes.length*48+70);let parts=[`<svg viewBox="0 0 ${width} 170" role="img" aria-label="Fragmento melódico en clave de sol"><text x="8" y="116" font-size="66" fill="#26374e">𝄞</text>`];[40,60,80,100,120].forEach(y=>parts.push(`<line x1="58" y1="${y}" x2="${width-12}" y2="${y}" stroke="#596575" stroke-width="1.2"/>`));notes.forEach((m,i)=>{let pc=m%12,oct=Math.floor(m/12)-1,letter=letterMap[pc],base=m-naturalOffset[pc],baseOct=Math.floor(base/12)-1,step=(baseOct-4)*7+letterIndex[letter]-2,y=120-step*10,x=75+i*48;if(y>120){for(let ly=140;ly<=y;ly+=20)parts.push(`<line x1="${x-12}" y1="${ly}" x2="${x+14}" y2="${ly}" stroke="#596575" stroke-width="1.1"/>`)}if(y<40){for(let ly=20;ly>=y;ly-=20)parts.push(`<line x1="${x-12}" y1="${ly}" x2="${x+14}" y2="${ly}" stroke="#596575" stroke-width="1.1"/>`)}if(pc===1||pc===3||pc===6||pc===8||pc===10)parts.push(`<text x="${x-18}" y="${y+5}" font-size="17" fill="#17243a">♯</text>`);parts.push(`<ellipse cx="${x}" cy="${y}" rx="7.5" ry="5.5" fill="#17243a" transform="rotate(-18 ${x} ${y})"/>`);parts.push(`<line x1="${x+6}" y1="${y}" x2="${x+6}" y2="${y-30}" stroke="#17243a" stroke-width="1.7"/>`)});parts.push("</svg>");return parts.join("")}
+function updateSongDetail(){let s=songs.find(x=>x.id===selectedSong);if(!s)return;let d=document.getElementById("songDetail");if(!d)return;d.innerHTML=`<div class="card"><div class="panel-title"><div><span class="tag">${s.style} · ${s.level}</span><h2 style="margin:7px 0 3px;color:var(--navy)">${s.title}</h2><p class="muted">${s.origin} · Tempo sugerido: ${s.tempo} BPM</p></div><button class="btn btn-outline btn-small" onclick="playSong(${s.id})">▶ Escuchar</button></div><h3>Fragmento en pentagrama</h3><p class="muted">Lectura didáctica en clave de sol. La secuencia muestra las alturas; el ritmo se trabaja por separado.</p><div class="staff-box" id="songStaff"></div><h3 style="margin-top:15px">Secuencia de notas</h3><p class="muted">Usá esta secuencia como guía. Primero escuchala; después practicá nota por nota en el teclado.</p><div class="note-strip">${s.notes.map((n,i)=>`<span class="note-chip ${songPractice&&i===songIndex?"current":""}">${noteShort(n)}</span>`).join("")}</div><div class="controls"><button class="btn btn-primary btn-small" onclick="startSongPractice(${s.id})">Practicar en el teclado</button><button class="btn btn-light btn-small" onclick="resetSongPractice()">Reiniciar pieza</button><span class="muted" id="songProgress">${songPractice?"Nota "+(songIndex+1)+" de "+s.notes.length:"Lista para practicar"}</span></div></div>`;let scoreBox=document.getElementById("songStaff");if(scoreBox)scoreBox.innerHTML=melodySvg(s.notes)}
+function playSong(id){let s=songs.find(x=>x.id===id);s.notes.forEach((n,i)=>playMidi(n,.32,i*(60/s.tempo)*.72))}
+function startSongPractice(id){selectedSong=id;songIndex=0;songPractice=true;pianoMode="song";staffClef="treble";keyboardStartMidi=60;document.getElementById("clefSelect").value="treble";go("piano");document.getElementById("pianoStatus").textContent="Practicá "+songs.find(x=>x.id===id).title+". Primera nota: "+noteName(songs.find(x=>x.id===id).notes[0])+".";updateSongDetail()}
+function resetSongPractice(){songIndex=0;songPractice=false;pianoMode="free";updateSongDetail();document.getElementById("pianoStatus").textContent="Práctica de pieza reiniciada."}
+const pitchNames=["Do","Do♯","Re","Mi♭","Mi","Fa","Fa♯","Sol","La♭","La","Si♭","Si"];
+const letterNames=["Do","Re","Mi","Fa","Sol","La","Si"], naturalPitch=[0,2,4,5,7,9,11];
+const rootLetterByPc=[0,0,1,2,2,3,3,4,5,5,6,6];
+function spellNotes(root,type,intervals,degreeOffsets){let rootLetter=rootLetterByPc[root];return intervals.map((interval,i)=>{let letter=(rootLetter+(degreeOffsets?degreeOffsets[i]:i))%7,target=(root+interval)%12,delta=(target-naturalPitch[letter]+12)%12;if(delta>6)delta-=12;let accidental=delta===1?"♯":delta===-1?"♭":"";return letterNames[letter]+accidental})}
+const scalePatterns={major:[0,2,4,5,7,9,11],minor:[0,2,3,5,7,8,10],harmonic:[0,2,3,5,7,8,11],melodic:[0,2,3,5,7,9,11]};
+const scaleLabels={major:"Escala mayor",minor:"Escala menor natural",harmonic:"Escala menor armónica",melodic:"Escala menor melódica ascendente"};
+const chordPatterns={major:[0,4,7],minor:[0,3,7],dim:[0,3,6],aug:[0,4,8],sus4:[0,5,7],"7":[0,4,7,10]};
+const chordLabels={major:"Mayor",minor:"Menor",dim:"Disminuido",aug:"Aumentado",sus4:"Suspendido de cuarta", "7":"Séptima dominante"};
+function selectedScale(){let root=Number(document.getElementById("scaleRoot").value),type=document.getElementById("scaleType").value;return {root,type,notes:scalePatterns[type].map(i=>60+root+i)}}
+function renderScaleResult(){let x=selectedScale(),rootName=pitchNames[x.root],spelled=spellNotes(x.root,x.type,scalePatterns[x.type]);document.getElementById("scaleResult").innerHTML=`<strong>${rootName} · ${scaleLabels[x.type]}</strong><div class="scale-notes">${spelled.map(n=>`<span>${n}</span>`).join("")}<span>${rootName}</span></div>`}
+function playScaleSelection(){let x=selectedScale(),descending=(x.type==="melodic"?scalePatterns.minor:scalePatterns[x.type]).map(i=>60+x.root+i),seq=[...x.notes,60+x.root+12,...descending.slice().reverse()];seq.forEach((n,i)=>playMidi(n,.28,i*.34))}
+function selectedChord(){let root=Number(document.getElementById("chordRoot").value),type=document.getElementById("chordType").value;return {root,type,notes:chordPatterns[type].map(i=>60+root+i)}}
+function renderChordResult(){let x=selectedChord(),degrees=x.type==="sus4"?[0,3,4]:x.type==="7"?[0,2,4,6]:[0,2,4],spelled=spellNotes(x.root,x.type,chordPatterns[x.type],degrees);document.getElementById("chordResult").innerHTML=`<strong>${pitchNames[x.root]} ${chordLabels[x.type]}</strong><div class="scale-notes">${spelled.map(n=>`<span>${n}</span>`).join("")}</div><small class="muted">Intervalos desde la fundamental: ${chordPatterns[x.type].join(" · ")} semitonos.</small>`}
+function playChordNotes(notes,when=0,duration=.9){let c=getAudio();notes.forEach(n=>playMidi(n,duration,when))}
+function playChordLab(arpeggio=false){let x=selectedChord();if(arpeggio)x.notes.forEach((n,i)=>playMidi(n,.48,i*.24));else playChordNotes(x.notes)}
+function playAccompaniment(kind){let bpm=84,beat=60/bpm,base=48;let triad=[base,base+4,base+7];if(kind==="waltz"){playMidi(base,.38,0);playChordNotes(triad,beat,.42);playChordNotes(triad,beat*2,.42)}else if(kind==="pop"){[base,base+7,base+12,base+7].forEach((n,i)=>playMidi(n,.34,i*beat))}else{[base,base+4,base+7,base+4,base,base+4,base+7,base+4].forEach((n,i)=>playMidi(n,.28,i*beat/2))}}
+function playWorshipProgression(){let roots=[48,43,45,41],qualities=[[0,4,7],[0,4,7],[0,3,7],[0,4,7]],beat=60/76;roots.forEach((root,i)=>playChordNotes(qualities[i].map(n=>root+n),i*beat*4,beat*3.6))}
+function renderTechnique(){renderScaleResult();renderChordResult()}
+document.getElementById("scaleRoot").addEventListener("change",renderScaleResult);document.getElementById("scaleType").addEventListener("change",renderScaleResult);document.getElementById("playScaleLab").onclick=playScaleSelection;document.getElementById("showScaleNotes").onclick=renderScaleResult;
+document.getElementById("chordRoot").addEventListener("change",renderChordResult);document.getElementById("chordType").addEventListener("change",renderChordResult);document.getElementById("playChordLab").onclick=()=>playChordLab(false);document.getElementById("arpeggiateChord").onclick=()=>playChordLab(true);
+
+function renderProgress(){refreshHome();document.getElementById("progressLessons").textContent=saved.lessons.length+" / 12";document.getElementById("progressSongs").textContent=saved.songs.length+" / "+songs.length;document.getElementById("progressScore").textContent=saved.score;let p=Math.round(saved.lessons.length/12*100);document.getElementById("allProgress").style.width=p+"%";document.getElementById("progressMessage").textContent=p===100?"¡Completaste los 12 módulos! Seguí repasando y ampliando tu repertorio.":`Completaste ${saved.lessons.length} de 12 módulos. Cada clase que terminás fortalece tu base musical.`}
+document.getElementById("resetProgress").onclick=()=>{if(confirm("¿Querés borrar todo tu progreso guardado en este dispositivo?")){saved={lessons:[],songs:[],score:0,practiceChecks:[]};persist();renderProgress();renderLessons();refreshHome();renderLibrary()}};
+function exportProgress(){let blob=new Blob([JSON.stringify({app:"Academia de Piano",version:"1.1.1",exportedAt:new Date().toISOString(),progress:saved},null,2)],{type:"application/json"});let url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="academia-piano-progreso.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function importProgress(file){let reader=new FileReader();reader.onload=()=>{try{let data=JSON.parse(reader.result),p=data.progress||data;if(!p||!Array.isArray(p.lessons)||!Array.isArray(p.songs)||typeof p.score!=="number")throw new Error("Formato no válido");saved={lessons:p.lessons.filter(n=>Number.isInteger(n)&&n>=0&&n<lessons.length),songs:p.songs.filter(n=>songs.some(song=>song.id===n)),score:Math.max(0,p.score),practiceChecks:Array.isArray(p.practiceChecks)?p.practiceChecks:[]};persist();renderProgress();renderLessons();renderLibrary();refreshHome();alert("Respaldo importado correctamente.")}catch(e){alert("No se pudo importar el archivo. Elegí un respaldo JSON válido de Academia de Piano.")}};reader.readAsText(file)}
+document.getElementById("exportProgress").onclick=exportProgress;document.getElementById("importProgress").onclick=()=>document.getElementById("progressFile").click();document.getElementById("progressFile").addEventListener("change",e=>{if(e.target.files[0])importProgress(e.target.files[0]);e.target.value=""});
+let deferredInstallPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e;document.getElementById("installHint").textContent="Instalar aplicación"});
+document.getElementById("installHint").onclick=async()=>{if(deferredInstallPrompt){deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;return}alert("Para instalarla en iPhone: publicá la aplicación en HTTPS, abrila desde Safari, tocá Compartir y elegí ‘Agregar a pantalla de inicio’. En Android: abrila desde Chrome y elegí ‘Instalar aplicación’ o ‘Agregar a pantalla de inicio’.")};
+if("serviceWorker" in navigator && location.protocol.startsWith("http")){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(err=>console.warn("No se pudo registrar el modo sin conexión:",err)))}
+renderLessons();renderPiano();newRhythm();newInterval();renderLibrary();renderTechnique();refreshHome();
+
+/* Estudio interactivo: Web MIDI + notación original de ejercicios. */
+const studioOriginal=[
+{id:'st1',title:'Primeros pasos',style:'Original',level:'Inicial',bpm:72,description:'Dos manos · negras y blancas',events:[[[60],[48],1],[[62],[48],1],[[64],[55],1],[[65],[55],1],[[67],[52],2],[[64],[48],1],[[60],[48],1]]},
+{id:'st2',title:'Pregunta y respuesta',style:'Original',level:'Inicial',bpm:80,description:'Frases de cuatro compases',events:[[[60],[48],1],[[64],[48],1],[[67],[52],1],[[64],[52],1],[[62],[43],1],[[65],[43],1],[[67],[50],1],[[60],[48],1]]},
+{id:'st3',title:'Vals de otoño',style:'Original',level:'Básico',bpm:92,description:'Compás 3/4 · bajo y melodía',meter:3,events:[[[64],[48],1],[[67],[52,55],1],[[72],[52,55],1],[[71],[43],1],[[67],[50,55],1],[[64],[50,55],1],[[65],[41],1],[[69],[48,53],1],[[72],[48,53],1],[[67],[43],1],[[64],[50,55],1],[[60],[48,52],1]]},
+{id:'st4',title:'Camino de escalas',style:'Original',level:'Básico',bpm:76,description:'Escala ascendente y descendente',events:[[[60],[48],1],[[62],[50],1],[[64],[52],1],[[65],[53],1],[[67],[55],1],[[69],[57],1],[[71],[59],1],[[72],[60],1],[[71],[59],1],[[69],[57],1],[[67],[55],1],[[65],[53],1],[[64],[52],1],[[62],[50],1],[[60],[48],2]]},
+{id:'st5',title:'Blues del atardecer',style:'Original',level:'Básico',bpm:88,description:'Escala blues y bajo',events:[[[60],[48],1],[[63],[55],1],[[65],[48],1],[[66],[55],1],[[67],[53],1],[[70],[60],1],[[67],[53],1],[[65],[60],1],[[63],[55],1],[[60],[48],1],[[67],[55],1],[[60],[48],1]]},
+{id:'st6',title:'Arpegios en Do',style:'Original',level:'Intermedio',bpm:84,description:'Arpegios y acompañamiento',events:[[[60],[48,55],.5],[[64],[],.5],[[67],[52],.5],[[72],[],.5],[[76],[48,55],.5],[[72],[],.5],[[67],[52],.5],[[64],[],.5],[[62],[43,50],.5],[[65],[],.5],[[67],[47],.5],[[74],[],.5],[[71],[43,50],.5],[[67],[],.5],[[65],[47],.5],[[62],[],.5]]},
+{id:'st7',title:'Aire de tango',style:'Original',level:'Intermedio',bpm:100,description:'Acentos y cromatismos',events:[[[69],[45],1],[[72],[52,57],.5],[[71],[],.5],[[69],[45],1],[[68],[52,57],1],[[69],[41],1],[[72],[48,53],.5],[[76],[],.5],[[74],[43],1],[[69],[45,52],1]]},
+{id:'st8',title:'Cadencia luminosa',style:'Original',level:'Intermedio',bpm:72,description:'Acordes simultáneos',events:[[[60,64,67],[48],2],[[60,65,69],[41],2],[[59,62,67],[43],2],[[60,64,67,72],[48],2]]}
+];
+const studioLibrary=studioOriginal.concat(songs.map(s=>({id:'old'+s.id,title:s.title,style:s.style,level:s.level,bpm:s.tempo,description:'Fragmento melódico · alturas; ritmo orientativo',pitchOnly:true,events:s.notes.map(n=>[[n],[],1])})));
+let studioCurrent=studioOriginal[0],studioStep=0,studioRunning=false,studioFilter='Todos',studioHits=0,studioMistakes=0,studioMidi=null,studioMidiInput=null,studioTimer=null,studioPressed=new Set(),studioActive=new Set(),studioPlayToken=0,studioStartedAt=0;
+const se=id=>document.getElementById(id);
+function studioExpected(ev){let hand=se('studioHand').value;return hand==='right'?ev[0]:hand==='left'?ev[1]:ev[0].concat(ev[1])}
+function studioSelect(id){studioStop();studioCurrent=studioLibrary.find(x=>x.id===id)||studioOriginal[0];studioStep=0;studioHits=0;studioMistakes=0;se('studioTitle').textContent=studioCurrent.title;se('studioSubtitle').textContent=studioCurrent.description;se('studioLevel').textContent=studioCurrent.level;se('studioScoreNote').textContent=studioCurrent.pitchOnly?'Fragmento: alturas originales del catálogo anterior. Duraciones orientativas, NO transcripción rítmica fiel.':'Ejercicio original: alturas, duraciones y distribución de manos definidas para esta práctica.';studioRenderList();studioRenderScore();studioUpdate();se('studioFeedback').textContent='Pulsá «Comenzar práctica» para tocar esta pieza.'}
+function studioRenderList(){let q=se('studioSearch').value.trim().toLocaleLowerCase('es');se('studioList').innerHTML=studioLibrary.filter(x=>(studioFilter==='Todos'||(studioFilter==='Otro'?!['Original','Clásica','Tradicional'].includes(x.style):x.style===studioFilter))&&(!q||(x.title+' '+x.style+' '+x.level).toLocaleLowerCase('es').includes(q))).map(x=>`<button class="studio-item ${x.id===studioCurrent.id?'active':''}" data-song="${x.id}"><span class="song-icon">${x.style==='Original'?'♬':'♫'}</span><span><strong>${x.title}</strong><small>${x.level} · ${x.style} · ${x.bpm} BPM</small></span></button>`).join('')||'<p class="muted">No se encontraron piezas.</p>';se('studioList').querySelectorAll('[data-song]').forEach(b=>b.onclick=()=>studioSelect(b.dataset.song))}
+function studioPitch(n){const names=['Do','Do♯','Re','Mi♭','Mi','Fa','Fa♯','Sol','La♭','La','Si♭','Si'];return names[n%12]+(Math.floor(n/12)-1)}
+function studioY(n,clef){let pc=n%12,letter=[0,0,1,1,2,3,3,4,4,5,5,6][pc],oct=Math.floor(n/12)-1;let diatonic=oct*7+letter;return 108-(diatonic-(clef==='treble'?30:18))*6.5}
+function studioRenderScore(){const piece=studioCurrent,evs=piece.events,perLine=8,measure=piece.meter||4,lines=Math.ceil(evs.length/perLine),width=790,height=lines*196+25;let out=[`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" aria-label="Partitura con dos pentagramas y notas de ${piece.title}">`];
+for(let row=0;row<lines;row++){let base=row*196;for(let staff=0;staff<2;staff++){let y0=base+(staff===0?82:158);for(let j=0;j<5;j++)out.push(`<line x1="44" y1="${y0-j*13}" x2="780" y2="${y0-j*13}" stroke="#9aa5b2" stroke-width="1"/>`);out.push(`<text x="10" y="${y0-4}" font-size="34" fill="#34455e">${staff===0?'𝄞':'𝄢'}</text>`)}for(let i=row*perLine;i<Math.min((row+1)*perLine,evs.length);i++){let idx=i-row*perLine,x=72+idx*88,ev=evs[i];if(i>0&&i%measure===0)out.push(`<line x1="${x-23}" y1="${base+30}" x2="${x-23}" y2="${base+158}" stroke="#9ca3af" stroke-width="1"/>`);ev.slice(0,2).forEach((notes,hand)=>notes.forEach((n,k)=>{let y=studioY(n,hand===0?'treble':'bass')+base+(hand===0?-26:50),cls=i<studioStep?'completed-note':i===studioStep?'current-note':'',pc=n%12;for(let ledgerY=hand===0?base+95:base+171; y>=ledgerY;ledgerY+=13)out.push(`<line x1="${x-11}" x2="${x+14}" y1="${ledgerY}" y2="${ledgerY}" stroke="#9aa5b2"/>`);if([1,3,6,8,10].includes(pc))out.push(`<text x="${x-19}" y="${y+4}" font-size="16" fill="#58677b">♯</text>`);out.push(`<ellipse class="${cls}" cx="${x}" cy="${y}" rx="7" ry="5.5" fill="#293d57" transform="rotate(-18 ${x} ${y})"/><line class="${cls}" x1="${x+6}" y1="${y}" x2="${x+6}" y2="${y-30}" stroke="#293d57" stroke-width="1.6"/>`)}));out.push(`<text x="${x}" y="${base+186}" font-size="9" fill="#778394" text-anchor="middle">${i+1}</text>`)} }
+out.push('</svg>');se('studioScore').innerHTML=out.join('');const current=se('studioScore').querySelector('.current-note');if(current&&studioRunning)current.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'})}
+function studioBuildKeys(){const root=48,count=36,white=Array.from({length:count},(_,i)=>root+i).filter(n=>![1,3,6,8,10].includes(n%12)),w=100/white.length;let html='';white.forEach(n=>html+=`<button class="studio-white" data-midi="${n}" aria-label="${studioPitch(n)}"><span>${n%12===0?'Do':''}</span></button>`);for(let n=root;n<root+count;n++){if(![1,3,6,8,10].includes(n%12))continue;let prev=white.filter(v=>v<n).length;html+=`<button class="studio-black" style="left:${prev*w-w*.35}%;width:${w*.7}%" data-midi="${n}" aria-label="${studioPitch(n)}"></button>`}se('studioKeys').innerHTML=html;se('studioKeys').querySelectorAll('[data-midi]').forEach(b=>{b.addEventListener('pointerdown',e=>{e.preventDefault();studioInput(Number(b.dataset.midi),true,'virtual')});b.addEventListener('pointerup',()=>studioInput(Number(b.dataset.midi),false,'virtual'));b.addEventListener('pointercancel',()=>studioInput(Number(b.dataset.midi),false,'virtual'))});studioHighlight()}
+function studioHighlight(){let expected=studioRunning&&se('studioMode').value==='wait'?studioExpected(studioCurrent.events[studioStep]||[[],[]]):[];se('studioKeys').querySelectorAll('[data-midi]').forEach(k=>{let n=Number(k.dataset.midi);k.classList.toggle('expected',expected.includes(n));k.classList.toggle('hit',studioActive.has(n))})}
+function studioInput(n,on,origin){if(on){if(studioActive.has(n))return;studioActive.add(n);studioPressed.add(n);se('studioLastNote').textContent=studioPitch(n)+(origin==='midi'?' · MIDI':' · virtual');if(origin==='virtual')playMidi(n,.35);if(studioRunning&&se('studioMode').value==='wait')studioCheck(n)}else{studioActive.delete(n);studioHighlight()}}
+function studioCheck(n){const ev=studioCurrent.events[studioStep];if(!ev)return;let expected=studioExpected(ev);if(!expected.length){studioAdvance();return}if(!expected.includes(n)){studioMistakes++;se('studioFeedback').textContent='Nota fuera del grupo esperado: '+studioPitch(n)+'. Buscá '+expected.map(studioPitch).join(' + ')+'.';studioUpdate();return}let all=expected.every(x=>studioPressed.has(x));if(all){studioHits++;se('studioFeedback').textContent='✓ ¡Bien! '+expected.map(studioPitch).join(' + ');studioAdvance()}else{se('studioFeedback').textContent='Bien. Completá el acorde: '+expected.filter(x=>!studioPressed.has(x)).map(studioPitch).join(' + ')}studioUpdate()}
+function studioAdvance(){studioStep++;studioPressed.clear();if(studioStep>=studioCurrent.events.length){studioRunning=false;se('studioPlay').textContent='▶ Volver a practicar';let pct=Math.round(studioHits/(studioHits+studioMistakes||1)*100);se('studioFeedback').textContent='¡Terminaste! Aciertos de eventos: '+studioHits+'. Notas fuera de objetivo: '+studioMistakes+'. Precisión aproximada: '+pct+'%.';try{let key='academiaStudioCompleted',old=JSON.parse(localStorage.getItem(key)||'[]');if(!old.includes(studioCurrent.id))old.push(studioCurrent.id);localStorage.setItem(key,JSON.stringify(old))}catch(e){}if(se('studioLoop').checked){setTimeout(()=>{studioRestart();studioStart()},550)} }studioUpdate();studioRenderScore()}
+function studioUpdate(){se('studioMeasure').textContent='Evento '+Math.min(studioStep+1,studioCurrent.events.length)+' / '+studioCurrent.events.length;se('studioProgressBar').style.width=(studioStep/studioCurrent.events.length*100)+'%';se('studioAccuracy').textContent=(studioHits+studioMistakes)?Math.round(studioHits/(studioHits+studioMistakes)*100)+'%':'—';studioHighlight()}
+function studioStop(){studioPlayToken++;studioRunning=false;if(studioTimer)clearTimeout(studioTimer);studioTimer=null;studioPressed.clear();if(se('studioPlay'))se('studioPlay').textContent='▶ Comenzar práctica'}
+function studioRestart(){studioStop();studioStep=0;studioHits=0;studioMistakes=0;studioUpdate();studioRenderScore();se('studioFeedback').textContent='Práctica reiniciada.'}
+function studioStart(){if(studioRunning){studioStop();se('studioFeedback').textContent='Práctica detenida.';studioUpdate();return}if(studioStep>=studioCurrent.events.length)studioRestart();studioRunning=true;studioPressed.clear();se('studioPlay').textContent='■ Detener';if(se('studioMode').value==='wait'){studioSkipEmpty();se('studioFeedback').textContent='Tocá: '+studioExpected(studioCurrent.events[studioStep]).map(studioPitch).join(' + ')+'. La partitura esperará.'}else{se('studioFeedback').textContent='Escuchando demostración a '+se('studioSpeed').selectedOptions[0].text+' de velocidad.';studioDemo(studioPlayToken)}studioUpdate();studioRenderScore()}
+function studioSkipEmpty(){while(studioRunning&&studioStep<studioCurrent.events.length&&!studioExpected(studioCurrent.events[studioStep]).length){studioHits++;studioStep++}if(studioStep>=studioCurrent.events.length){studioStep=studioCurrent.events.length-1;studioAdvance()}}
+function studioDemo(token){if(!studioRunning||token!==studioPlayToken)return;if(studioStep>=studioCurrent.events.length){studioStep=studioCurrent.events.length-1;studioAdvance();return}let ev=studioCurrent.events[studioStep],notes=studioExpected(ev);notes.forEach(n=>playMidi(n,Math.min(1.8,ev[2]*60/studioCurrent.bpm/Number(se('studioSpeed').value)*.85)));studioHits++;let ms=Math.max(140,ev[2]*60000/studioCurrent.bpm/Number(se('studioSpeed').value));studioStep++;studioUpdate();studioRenderScore();studioTimer=setTimeout(()=>studioDemo(token),ms)}
+async function studioConnectMidi(){if(!navigator.requestMIDIAccess){se('midiState').textContent='● Este navegador no admite Web MIDI. Probá Chrome/Edge de escritorio.';return}try{let access=await navigator.requestMIDIAccess({sysex:false});studioMidi=access;studioBindMidi();access.onstatechange=studioBindMidi}catch(e){se('midiState').textContent='● No se pudo conectar: '+(e.name==='NotAllowedError'?'permiso MIDI rechazado':e.message)}}
+function studioBindMidi(){if(!studioMidi)return;for(const input of studioMidi.inputs.values())input.onmidimessage=null;let inputs=Array.from(studioMidi.inputs.values()).filter(x=>x.state==='connected');if(!inputs.length){se('midiState').textContent='● No se detectó piano MIDI. Revisá cable y encendido.';studioMidiInput=null;return}studioMidiInput=inputs[0];for(let input of inputs){input.onmidimessage=e=>{let [status,n,velocity]=e.data,command=status&0xf0;if(command===0x90&&velocity>0)studioInput(n,true,'midi');else if(command===0x80||(command===0x90&&velocity===0))studioInput(n,false,'midi')}}se('midiState').textContent='● MIDI conectado: '+inputs.map(x=>x.name||'Piano digital').join(', ')}
+se('connectMidi').onclick=studioConnectMidi;se('studioPlay').onclick=studioStart;se('studioRestart').onclick=studioRestart;se('studioSearch').oninput=studioRenderList;se('studioHand').onchange=()=>{studioRestart();se('studioFeedback').textContent='Mano seleccionada. Volvé a iniciar.'};se('studioMode').onchange=studioRestart;se('studioSpeed').onchange=()=>{if(studioRunning&&se('studioMode').value==='listen'){studioStop();se('studioFeedback').textContent='Velocidad cambiada. Reiniciá la demostración.'}};document.querySelectorAll('[data-studio-filter]').forEach(b=>b.onclick=()=>{studioFilter=b.dataset.studioFilter;document.querySelectorAll('[data-studio-filter]').forEach(x=>x.classList.toggle('selected',x===b));studioRenderList()});
+studioBuildKeys();studioSelect('st1');
+
+</script>
 </body>
 </html>
