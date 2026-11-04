@@ -1,4 +1,4 @@
-# Academia de Piano · Versión completa 3.3
+# Academia de Piano · Versión completa 3.5
 
 Proyecto PWA estático en español. Incluye la academia, el contenido educativo y el estudio de piano guiado por canciones.
 
@@ -98,3 +98,37 @@ La entrada Web MIDI depende del navegador, el sistema operativo y el contexto se
 - **Micrófono** (🎤): escucha tu piano real y avanza el modo espera cuando oye las notas esperadas (también acordes). Limitaciones: silencia el audio de la app mientras está activo, funciona mejor desde Do3 hacia arriba, necesita HTTPS y permiso del navegador, y solo detecta las notas correctas (no marca errores).
 - **Armar pieza**: panel en la barra lateral del estudio. Melodía `E4/1 G4/1 r/2` (nota/duración en tiempos) + acordes por compás `C | F G7 | Am` + patrón de mano izquierda (bloque, arpegio, Alberti, vals, jazz caminante). También disponible como `buildPiece({...})`.
 - **Repertorio nuevo (9 piezas):** tradicionales y clásicas de dominio público (Greensleeves, Sublime gracia, Cuando los santos, Minueto en Sol) y piezas **originales** en estilo de los 80, 90, actual, jazz y blues. No se incluyen melodías de canciones comerciales.
+
+
+## Novedades 3.5 · Consolidación y estabilidad
+
+Esta actualización conserva el contenido y las funciones de la 3.4 y agrega:
+- Versionado de recursos `3.5.0` para reducir problemas de caché después de publicar.
+- El service worker incluye ahora `extras.js` en el shell offline (antes podía quedar fuera de la caché inicial).
+- Foco visible de teclado para controles, enlaces y campos.
+- Mejoras de interacción táctil para reducir dobles toques y retrasos de respuesta en móviles.
+- Respeto global por la preferencia del sistema de movimiento reducido.
+- Ajustes de densidad visual en pantallas horizontales de poca altura.
+- Documentación actualizada para desplegar y diagnosticar la app.
+
+## Pruebas de entrega
+
+- Sintaxis JavaScript validada con Node.js para `app.js` y `extras.js`.
+- JSON del manifiesto validado.
+- Se verificó que `index.html` carga ambos scripts y la hoja de estilos con versión 3.5.
+- Se verificó que el service worker lista `extras.js` dentro del shell.
+- El audio acústico remoto sigue requiriendo internet en el primer uso; el paquete no incorpora archivos de muestras con licencia de terceros.
+- Web MIDI y micrófono dependen del navegador, permisos y HTTPS. En Safari para iOS se mantiene el teclado virtual como alternativa.
+
+
+## Versión 3.6 · Digitación visible por mano
+
+Se conserva el contenido y las funciones de la 3.5 y se añade:
+- Guía fija de colores: MD azul y MI verde.
+- Leyenda de digitación: 1 pulgar, 2 índice, 3 medio, 4 anular y 5 meñique.
+- Cada nota descendente puede mostrar su número de dedo, nombre de nota y abreviatura MD/MI.
+- Las instrucciones del modo espera identifican la mano, la nota y el nombre del dedo.
+- Las teclas esperadas exponen mano y digitación también en su etiqueta accesible.
+- La asignación de dedos es una sugerencia automática por registro/contorno, no una digitación editorial validada para toda obra. En pasajes complejos conviene corregirla con digitación docente.
+
+Prueba técnica: validar `app.js` y `extras.js` con `node --check` antes de publicar. El motor requiere pruebas reales de ejecución con un MIDI y teclado físico.

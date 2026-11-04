@@ -1,15 +1,17 @@
-const CACHE_NAME = "academia-piano-v3-4-0";
+const CACHE_NAME = "academia-piano-v3-6-0";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./estudio-midi.html",
   "./app.js",
   "./extras.js",
+  "./extras.js",
   "./styles.css",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",
-  "./icon-512.png"
+  "./icon-512.png",
+  "./audio/README.md"
 ];
 
 self.addEventListener("install", (event) => {

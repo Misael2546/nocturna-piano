@@ -338,3 +338,48 @@ body.studio-fullscreen #studio .live-key:where(.black){position:absolute !import
 .builder summary{cursor:pointer;font-weight:700}
 .builder input,.builder textarea,.builder select{width:100%;margin:6px 0;padding:6px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:inherit;font:inherit}
 .builder .bd-row{display:flex;gap:6px}
+
+
+/* ===== 3.5 · Accesibilidad, tacto y estabilidad móvil ===== */
+:where(button, a, input, select, textarea, summary):focus-visible {
+  outline: 3px solid #72d9ff !important;
+  outline-offset: 3px;
+}
+button, [role="button"], .live-key, .studio-white, .studio-black {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+@media (orientation: landscape) and (max-height: 520px) {
+  .studio-hero { padding-top: 10px !important; padding-bottom: 10px !important; }
+  .studio-hero p { margin-block: 5px !important; }
+  #studio-learnbar { gap: 5px !important; }
+}
+
+
+/* ===== v3.6 · Guía explícita de manos y digitación ===== */
+.finger-guide {
+  display:flex; flex-wrap:wrap; align-items:center; gap:5px 12px;
+  padding:5px 9px; margin:3px 0 5px; border:1px solid rgba(144,164,190,.18);
+  border-radius:9px; background:rgba(7,17,30,.72); color:#c4d2e5;
+  font:700 9px/1.35 system-ui,sans-serif;
+}
+.finger-hand { white-space:nowrap; }
+.finger-hand b { display:inline-grid; place-items:center; min-width:22px; padding:2px 5px; border-radius:5px; color:#07111e; margin-right:4px; }
+.finger-hand.rh b { background:#38d8ff; }
+.finger-hand.lh b { background:#55e6a5; }
+.finger-map { color:#d6dfec; }
+.finger-map b { display:inline-grid; place-items:center; width:15px; height:15px; border-radius:50%; background:#d8e4f2; color:#0a1727; margin-left:3px; }
+.live-key[data-hand="right"][data-finger]::after { background:#087b9a; color:#fff; }
+.live-key[data-hand="left"][data-finger]::after { background:#08794f; color:#fff; }
+.live-key[data-hand="both"][data-finger]::after { background:linear-gradient(90deg,#087b9a 50%,#08794f 50%); color:#fff; }
+body.studio-fullscreen #studio .finger-guide { flex:0 0 auto; min-height:20px; padding:3px 7px; margin:1px 0 3px; gap:4px 8px; font-size:8px; }
+body.studio-fullscreen #studio .finger-map { font-size:8px; }
+body.studio-fullscreen #studio .engine-instruction { white-space:normal !important; }

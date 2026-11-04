@@ -9,13 +9,13 @@
 <meta name="apple-mobile-web-app-title" content="Academia Piano">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="description" content="Curso interactivo de teoría musical y piano: lectura, ritmo, oído, teclado y repertorio progresivo.">
+<meta name="description" content="Academia integral de piano: teoría, técnica, repertorio y práctica guiada por manos con MIDI y teclado virtual.">
 <link rel="manifest" href="manifest.webmanifest">
-<script defer src="./app.js?v=3.1.0"></script>
-<script defer src="./extras.js?v=3.4.0"></script>
+<script defer src="./app.js?v=3.6.0"></script>
+<script defer src="./extras.js?v=3.6.0"></script>
 <title>Academia de Piano | Música en práctica</title>
 <meta name="application-name" content="Academia de Piano">
-<link rel="stylesheet" href="./styles.css?v=3.1.0">
+<link rel="stylesheet" href="./styles.css?v=3.6.0">
 </head>
 <body>
 <div class="orientation-gate" id="orientation-gate" role="dialog" aria-modal="true" aria-labelledby="orientation-title"><div class="orientation-card"><div class="rotate-symbol" aria-hidden="true">↻</div><p class="orientation-kicker">NOCTURNA · PIANO STUDIO</p><h2 id="orientation-title">Girá tu dispositivo</h2><p>El estudio interactivo está diseñado para usarse en posición horizontal.</p><span class="orientation-hint">La pantalla se adapta automáticamente</span></div></div>
@@ -91,6 +91,11 @@
             <span id="studio-lesson-text" class="lb-text" role="status"></span>
           </div>
           <div id="studioScore" class="learn-score" aria-label="Partitura sincronizada"></div>
+          <div class="finger-guide" aria-label="Guía de manos y digitación">
+            <span class="finger-hand rh"><b>MD</b> Mano derecha · azul</span>
+            <span class="finger-hand lh"><b>MI</b> Mano izquierda · verde</span>
+            <span class="finger-map"><b>1</b> Pulgar · <b>2</b> Índice · <b>3</b> Medio · <b>4</b> Anular · <b>5</b> Meñique</span>
+          </div>
           <div class="falling-stage">
             <canvas id="fallingNotesCanvas" aria-label="Notas de ambas manos descendiendo hacia el teclado"></canvas>
             <div class="execution-line"><span>LÍNEA DE IMPACTO</span></div>

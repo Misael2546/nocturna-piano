@@ -469,21 +469,29 @@ function studioAutoNotes(event) {
   return [];
 }
 
+function studioFingerName(number) {
+  return ({1:'pulgar',2:'índice',3:'medio',4:'anular',5:'meñique'})[Number(number)] || 'dedo';
+}
+
 function studioShowInstruction(event, expected) {
-  const label = note => `${noteName(note.midi)}${note.finger != null ? ` (dedo ${note.finger})` : ''}`;
-  const right = expected.filter(note => note.hand === 'right').map(label);
-  const left = expected.filter(note => note.hand === 'left').map(label);
-  let message = '';
-  if (studioHandMode === 'right') message = `Tocá ${right.join(' + ')} con la mano derecha`;
-  else if (studioHandMode === 'left') message = `Tocá ${left.join(' + ')} con la mano izquierda`;
-  else {
-    const parts = [];
-    if (right.length) parts.push(`Derecha: ${right.join(' + ')}`);
-    if (left.length) parts.push(`Izquierda: ${left.join(' + ')}`);
-    message = parts.join('  ·  ');
-  }
-  se('engine-instruction').textContent = message || 'Tocá las notas iluminadas';
-  se('engine-instruction').hidden = false;
+  const label = note => {
+    const finger = note.finger == null ? '' : ` · dedo ${note.finger} (${studioFingerName(note.finger)})`;
+    return `${noteName(note.midi)}${finger}`;
+  };
+  const rightNotes = expected.filter(note => note.hand === 'right');
+  const leftNotes = expected.filter(note => note.hand === 'left');
+  const right = rightNotes.map(label);
+  const left = leftNotes.map(label);
+  const parts = [];
+  if ((studioHandMode === 'right' || studioHandMode === 'both') && right.length)
+    parts.push(`🔵 MANO DERECHA: ${right.join(' + ')}`);
+  if ((studioHandMode === 'left' || studioHandMode === 'both') && left.length)
+    parts.push(`🟢 MANO IZQUIERDA: ${left.join(' + ')}`);
+  const message = parts.join('   |   ');
+  const instruction = se('engine-instruction');
+  instruction.textContent = message || 'Seguí los dedos indicados sobre el teclado';
+  instruction.setAttribute('aria-label', message || 'Tocá las notas iluminadas');
+  instruction.hidden = false;
   studioPaintKeys();
 }
 
@@ -583,6 +591,12 @@ function studioPaintKeys() {
     key.classList.toggle('active', studioActive.has(midi));
     const fingers = fingersByMidi.get(midi);
     if (fingers) key.dataset.finger = fingers.join('/'); else delete key.dataset.finger;
+    if (hands.size) key.dataset.hand = hands.has('right') && hands.has('left') ? 'both' : (hands.has('right') ? 'right' : 'left');
+    else delete key.dataset.hand;
+    if (hands.size) {
+      const handLabel = hands.has('right') && hands.has('left') ? 'ambas manos' : (hands.has('right') ? 'mano derecha' : 'mano izquierda');
+      key.setAttribute('aria-label', `${noteName(midi)}, ${handLabel}${fingers ? `, dedo ${fingers.join(' y ')}` : ''}`);
+    } else key.setAttribute('aria-label', noteName(midi));
     key.classList.toggle('expected-right', hands.has('right'));
     key.classList.toggle('expected-left', hands.has('left'));
     key.classList.toggle('expected-both', hands.has('right') && hands.has('left'));
@@ -927,10 +941,24 @@ function studioDraw() {
       if (noteHeight>20) {
         const cx=geometry.x+geometry.w/2;
         if (note.finger!=null) {
-          ctx.font='800 12px system-ui, sans-serif';
-          ctx.fillText(String(note.finger),cx,y+14);
-          if (noteHeight>36) { ctx.font='700 8px system-ui, sans-serif'; ctx.fillText(noteName(note.midi),cx,y+26); }
-        } else ctx.fillText(noteName(note.midi),cx,y+14);
+          ctx.font='900 12px system-ui, sans-serif';
+          ctx.fillText(String(note.finger),cx,y+13);
+          if (noteHeight>36) {
+            ctx.font='800 8px system-ui, sans-serif';
+            ctx.fillText(noteName(note.midi),cx,y+25);
+          }
+          if (noteHeight>52) {
+            ctx.font='900 7px system-ui, sans-serif';
+            ctx.fillText(right?'MD':'MI',cx,y+36);
+          }
+        } else {
+          ctx.font='800 9px system-ui, sans-serif';
+          ctx.fillText(noteName(note.midi),cx,y+13);
+          if (noteHeight>38) {
+            ctx.font='900 7px system-ui, sans-serif';
+            ctx.fillText(right?'MD':'MI',cx,y+25);
+          }
+        }
       }
       ctx.restore();
     }

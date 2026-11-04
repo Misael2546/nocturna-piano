@@ -39,6 +39,8 @@
     if (counting) { cancelCount(); se('engine-play').disabled = false; return; }
     countPending = metroOn; try { await _begin.apply(this, arguments); } finally { countPending = false; }
   };
+  /* app.js dejó registrado el ▶ con la función original: lo reconecto a la versión con cuenta */
+  const playBtn = $('engine-play'); playBtn.removeEventListener('click', _begin); playBtn.addEventListener('click', () => studioBegin());
   studioStartClock = function () {
     if (countPending && !studioBlocked && studioCurrent) {
       countPending = false;
