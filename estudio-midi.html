@@ -121,14 +121,28 @@ button:disabled{cursor:not-allowed;opacity:.55}
         <div id="studioList" class="studio-list"></div>
       </aside>
       <div class="studio-main">
-        <div class="studio-toolbar"><div><span class="studio-kicker">02 / TU PRÁCTICA</span><h2 id="studioTitle">Elegí una pieza</h2><p id="studioSubtitle">Estudio interactivo · MIDI o teclado virtual</p></div><span id="studioLevel" class="studio-level">Inicial</span></div>
+        <div class="studio-toolbar studio-compact-header">
+          <div class="studio-title-wrap"><span class="studio-kicker">NOCTURNA · ESTUDIO EN VIVO</span><h2 id="studioTitle">Preludio en Do</h2><p id="studioSubtitle">Práctica interactiva · MIDI o teclado virtual</p></div>
+          <div class="studio-header-right"><span id="studioLevel" class="studio-level">Inicial</span><div class="engine-badges"><span id="engine-midi" class="engine-badge">● MIDI desconectado</span><span id="engine-mic" class="engine-badge">● Micrófono inactivo</span></div></div>
+        </div>
         <div class="studio-modes legacy-mode-controls"><label>Modo <select id="studioMode"><option value="wait">Esperar mis notas</option><option value="listen">Escuchar demostración</option></select></label><label>Manos <select id="studioHand"><option value="both">Ambas</option><option value="right">Derecha</option><option value="left">Izquierda</option></select></label><label>Velocidad <select id="studioSpeed"><option value="0.5">50%</option><option value="0.75">75%</option><option value="1" selected>100%</option><option value="1.25">125%</option></select></label></div>
         <section class="premium-player" id="premium-player" aria-label="Reproductor interactivo de piano">
-          <div class="premium-player-head"><div><span class="studio-kicker">03 / REPRODUCTOR EN VIVO</span><h3>Práctica guiada</h3><p id="engine-status" role="status">Preparando muestras de piano…</p></div><div class="engine-badges"><span id="engine-midi" class="engine-badge">● MIDI desconectado</span><span id="engine-mic" class="engine-badge">● Micrófono no usado</span></div></div>
-          <div class="player-controls"><button class="engine-play" id="engine-play" type="button" aria-label="Reproducir">▶ <span>Reproducir</span></button><button class="engine-reset" id="engine-reset" type="button" aria-label="Reiniciar práctica">↺</button><button class="engine-midi-connect" id="engine-midi-connect" type="button">Conectar MIDI</button><label class="volume-control" for="engine-volume">Volumen <input id="engine-volume" type="range" min="0" max="1" step="0.01" value="0.72"></label><label class="wait-control"><input id="engine-wait" type="checkbox" checked> Modo espera</label><span id="engine-time" class="engine-time">00:00</span></div>
-          <div class="falling-stage"><canvas id="fallingNotesCanvas" aria-label="Notas musicales descendiendo hacia el teclado"></canvas><div class="execution-line"><span>TOCÁ ACÁ</span></div></div>
-          <div class="live-keyboard-wrap"><div class="live-keyboard-label"><strong>TECLADO VIRTUAL</strong><span id="engine-feedback" role="status">Tocá reproducir para comenzar.</span></div><div id="liveKeyboard" class="live-keyboard" aria-label="Teclado virtual de dos octavas"></div></div>
-          <div class="engine-footnote">Audio de piano muestreado. Para Web MIDI necesitás un navegador compatible y un teclado conectado; en iPhone podés practicar con el teclado virtual.</div>
+          <div class="premium-player-head compact-engine-head"><div><span class="studio-kicker">REPRODUCTOR EN VIVO</span><p id="engine-status" role="status">Listo para comenzar. Tocá reproducir para activar el audio.</p></div></div>
+          <div class="falling-stage">
+            <canvas id="fallingNotesCanvas" aria-label="Notas musicales descendiendo hacia el teclado"></canvas>
+            <div class="execution-line"><span>TOCÁ ACÁ</span></div>
+            <div class="floating-player-controls" aria-label="Controles de reproducción">
+              <button class="engine-play" id="engine-play" type="button" aria-label="Reproducir" title="Reproducir">▶</button>
+              <button class="engine-reset" id="engine-reset" type="button" aria-label="Reiniciar práctica" title="Reiniciar">↺</button>
+              <label class="volume-control" for="engine-volume"><span>Vol.</span><input id="engine-volume" type="range" min="0" max="1" step="0.01" value="0.72"></label>
+              <label class="wait-control" for="engine-wait"><input id="engine-wait" type="checkbox" checked><span>Modo espera</span></label>
+              <button class="engine-midi-connect" id="engine-midi-connect" type="button">MIDI</button>
+              <span id="engine-time" class="engine-time">00:00</span>
+            </div>
+            <button class="audio-start-overlay" id="audio-start-overlay" type="button"><span class="audio-start-icon" aria-hidden="true">▶</span><strong>TOCÁ PARA COMENZAR</strong><small>Activá el audio y empezá tu práctica</small></button>
+          </div>
+          <div class="live-keyboard-wrap"><div class="live-keyboard-label"><strong>TECLADO</strong><span id="engine-feedback" role="status">Tocá reproducir para comenzar.</span></div><div id="liveKeyboard" class="live-keyboard" aria-label="Teclado virtual de dos octavas"></div></div>
+          <div class="engine-footnote">Audio de piano muestreado · El audio se activa con tu primer toque por las restricciones del navegador.</div>
         </section>
         <div class="studio-sheet"><div class="studio-sheet-header"><span>PARTITURA INTERACTIVA</span><span id="studioMeasure">Compás 1</span></div><div id="studioScore" class="studio-score" role="img" aria-label="Partitura de la pieza seleccionada"></div><div class="studio-score-caption" id="studioScoreNote">Lectura de notas y figuras · Claves de Sol y Fa</div></div>
         <div class="studio-controlbar"><button class="studio-play" id="studioPlay">▶ Comenzar práctica</button><button class="studio-iconbtn" id="studioRestart" title="Reiniciar" aria-label="Reiniciar">↺</button><label class="studio-loop"><input type="checkbox" id="studioLoop"> Repetir</label><div class="studio-metrics"><strong id="studioAccuracy">—</strong><small>Precisión de notas</small></div></div>

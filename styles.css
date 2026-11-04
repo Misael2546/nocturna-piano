@@ -42,3 +42,59 @@ body:has(#studio.active) .live-keyboard{flex:none}
 @media(max-width:700px) and (orientation:landscape){body:has(#studio.active) #studio{padding:7px 9px}body:has(#studio.active) .studio-layout{grid-template-columns:minmax(115px,155px) minmax(0,1fr);gap:7px}body:has(#studio.active) .studio-side-title{font-size:.7rem}body:has(#studio.active) .premium-player{padding:7px;gap:4px}body:has(#studio.active) .falling-stage{min-height:75px}body:has(#studio.active) .live-keyboard{height:68px}}
 
 .engine-midi-connect{min-height:38px;padding:8px 11px;border:1px solid #60708a66;border-radius:10px;background:#202c40;color:#dce6f5;font-size:.68rem;font-weight:750}
+
+
+/* NOCTURNA · Mobile landscape practice room */
+html:has(#studio.active),body:has(#studio.active){width:100%;height:100%;min-height:0;margin:0;overflow:hidden;overscroll-behavior:none}
+body:has(#studio.active) .topbar,body:has(#studio.active) .nav,body:has(#studio.active) .studio-hero,body:has(#studio.active) .studio-side,body:has(#studio.active) .app-footer{display:none!important}
+body:has(#studio.active) #studio{position:fixed!important;inset:0!important;z-index:1000!important;display:flex!important;flex-direction:column!important;width:100vw!important;height:100vh!important;height:100dvh!important;min-height:0!important;max-height:100dvh!important;padding:max(5px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(4px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))!important;margin:0!important;overflow:hidden!important;background:#090f1b!important}
+body:has(#studio.active) .studio-layout{display:flex!important;flex:1 1 auto!important;min-height:0!important;height:100%!important;overflow:hidden!important;gap:0!important}
+body:has(#studio.active) .studio-main{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;min-width:0!important;min-height:0!important;height:100%!important;overflow:hidden!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important}
+body:has(#studio.active) .studio-compact-header{display:flex!important;flex:0 0 auto!important;align-items:center!important;justify-content:space-between!important;min-height:42px!important;max-height:48px!important;margin:0!important;padding:3px 5px 6px!important;border-bottom:1px solid rgba(255,255,255,.12)!important;gap:8px!important}
+body:has(#studio.active) .studio-title-wrap{min-width:0}
+body:has(#studio.active) .studio-compact-header .studio-kicker{font-size:8px!important;letter-spacing:1.3px!important;color:#70dfe9!important}
+body:has(#studio.active) .studio-compact-header h2{font-size:clamp(13px,2.4vh,19px)!important;line-height:1.05!important;margin:2px 0!important;color:#f6f8ff!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+body:has(#studio.active) .studio-compact-header p{font-size:9px!important;margin:0!important;color:#aab8cb!important}
+body:has(#studio.active) .studio-header-right{display:flex!important;align-items:center!important;gap:7px!important}
+body:has(#studio.active) .studio-level{font-size:8px!important;padding:4px 7px!important}
+body:has(#studio.active) .engine-badges{gap:4px!important;flex-wrap:nowrap!important}
+body:has(#studio.active) .engine-badge{font-size:8px!important;padding:4px 6px!important;white-space:nowrap!important}
+body:has(#studio.active) .premium-player{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;gap:5px!important;width:100%!important;min-width:0!important;min-height:0!important;height:100%!important;margin:0!important;padding:5px 5px max(4px,env(safe-area-inset-bottom))!important;overflow:hidden!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
+body:has(#studio.active) .compact-engine-head{display:block!important;flex:0 0 auto!important;min-height:14px!important;margin:0!important;padding:0 3px!important}
+body:has(#studio.active) .compact-engine-head p{font-size:9px!important;line-height:1.2!important;margin:0!important;color:#aab8cb!important}
+body:has(#studio.active) .falling-stage{position:relative!important;display:block!important;flex:1 1 0!important;min-height:0!important;height:auto!important;width:100%!important;overflow:hidden!important;border-radius:13px!important}
+body:has(#studio.active) .falling-stage canvas{position:absolute!important;inset:0!important;width:100%!important;height:100%!important}
+body:has(#studio.active) .execution-line{z-index:2!important;bottom:12%!important}
+body:has(#studio.active) .floating-player-controls{position:absolute!important;z-index:5!important;top:8px!important;left:8px!important;right:8px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:7px!important;width:auto!important;min-height:48px!important;padding:6px 9px!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:16px!important;background:rgba(8,15,27,.78)!important;backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important;box-shadow:0 8px 26px rgba(0,0,0,.32)!important;flex-wrap:nowrap!important}
+body:has(#studio.active) .engine-play{flex:0 0 48px!important;width:48px!important;min-width:48px!important;height:48px!important;min-height:48px!important;padding:0!important;border-radius:50%!important;font-size:22px!important;line-height:1!important;background:linear-gradient(145deg,#f6d99e,#c69a4e)!important;box-shadow:0 0 0 4px rgba(214,177,108,.16),0 5px 18px #0006!important}
+body:has(#studio.active) .engine-play.is-playing{background:linear-gradient(145deg,#8cf0d0,#36b78f)!important}
+body:has(#studio.active) .engine-reset{flex:0 0 38px!important;width:38px!important;height:38px!important;min-height:38px!important;font-size:21px!important}
+body:has(#studio.active) .volume-control{display:flex!important;flex:1 1 80px!important;min-width:60px!important;gap:5px!important;font-size:9px!important;color:#e7edf7!important;white-space:nowrap!important}
+body:has(#studio.active) .volume-control input{width:100%!important;min-width:35px!important;max-width:100px!important;height:25px!important}
+body:has(#studio.active) .wait-control{display:flex!important;flex:0 0 auto!important;align-items:center!important;gap:5px!important;min-height:38px!important;padding:0 8px!important;border:1px solid rgba(91,225,239,.55)!important;border-radius:11px!important;background:rgba(27,56,70,.9)!important;color:#bdf8f3!important;font-size:9px!important;font-weight:800!important;white-space:nowrap!important}
+body:has(#studio.active) .wait-control input{width:16px!important;height:16px!important;accent-color:#52e4d2!important}
+body:has(#studio.active) .engine-midi-connect{flex:0 0 auto!important;min-height:36px!important;padding:6px 9px!important;font-size:9px!important}
+body:has(#studio.active) .engine-time{flex:0 0 auto!important;margin:0!important;font-size:10px!important}
+body:has(#studio.active) .audio-start-overlay{position:absolute!important;z-index:7!important;inset:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:8px!important;border:0!important;background:rgba(5,11,21,.55)!important;color:#fff!important;backdrop-filter:blur(3px)!important}
+body:has(#studio.active) .audio-start-overlay[hidden]{display:none!important}
+body:has(#studio.active) .audio-start-icon{display:grid!important;place-items:center!important;width:66px!important;height:66px!important;border-radius:50%!important;background:linear-gradient(145deg,#f6d99e,#c69a4e)!important;color:#14233a!important;font-size:25px!important;box-shadow:0 0 0 10px rgba(214,177,108,.13),0 12px 35px #0008!important}
+body:has(#studio.active) .audio-start-overlay strong{font-size:clamp(12px,2.3vh,17px)!important;letter-spacing:1.5px!important}
+body:has(#studio.active) .audio-start-overlay small{font-size:10px!important;color:#c4d0e1!important}
+body:has(#studio.active) .live-keyboard-wrap{display:flex!important;flex:0 0 auto!important;flex-direction:column!important;min-height:0!important;gap:3px!important}
+body:has(#studio.active) .live-keyboard-label{display:flex!important;flex:0 0 auto!important;min-height:14px!important;padding:0 3px!important;font-size:8px!important;line-height:1!important}
+body:has(#studio.active) .live-keyboard-label span{font-size:8px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+body:has(#studio.active) .live-keyboard{display:flex!important;flex:0 0 clamp(62px,18dvh,112px)!important;width:100%!important;height:clamp(62px,18dvh,112px)!important;min-height:62px!important;max-height:112px!important;overflow:hidden!important;border-radius:0 0 8px 8px!important;touch-action:manipulation!important}
+body:has(#studio.active) .live-key{font-size:clamp(7px,1.3vh,11px)!important;padding-bottom:5px!important}
+body:has(#studio.active) .live-key.active,body:has(#studio.active) .live-key.expected{background:linear-gradient(180deg,#a7fff0,#29d9c1)!important;color:#052b2b!important;box-shadow:inset 0 -5px 0 #159b91,0 0 22px rgba(48,255,220,.78)!important}
+body:has(#studio.active) .engine-footnote,body:has(#studio.active) .studio-sheet,body:has(#studio.active) .studio-modes{display:none!important}
+@media (orientation:landscape) and (max-height:600px){
+ body:has(#studio.active) .studio-compact-header{min-height:35px!important;max-height:39px!important}
+ body:has(#studio.active) .premium-player{gap:3px!important;padding:3px 4px max(3px,env(safe-area-inset-bottom))!important}
+ body:has(#studio.active) .compact-engine-head{min-height:11px!important}
+ body:has(#studio.active) .falling-stage{min-height:0!important}
+ body:has(#studio.active) .live-keyboard{flex-basis:clamp(58px,17dvh,82px)!important;height:clamp(58px,17dvh,82px)!important;min-height:58px!important}
+ body:has(#studio.active) .floating-player-controls{top:5px!important;left:5px!important;right:5px!important;min-height:42px!important;padding:4px 7px!important}
+ body:has(#studio.active) .engine-play{width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;flex-basis:42px!important}
+}
+@media (orientation:portrait) and (max-width:800px){body:has(#studio.active) #studio{padding:env(safe-area-inset-top) 8px env(safe-area-inset-bottom)!important}}
+@media(prefers-reduced-motion:reduce){body:has(#studio.active) .audio-start-icon{box-shadow:none!important}}
