@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PianoFlow - Aprende Piano Interactivo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.webmanifest">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">🎹 PianoFlow</div>
+        <nav class="nav-links">
+            <a href="index.html" class="active">Explorar</a>
+            <a href="academia.html">Academia</a>
+            <a href="tutoriales.html">Tutoriales</a>
+        </nav>
+        <div class="hardware-status">
+            <span id="midi-indicator" class="status-badge disconnected">MIDI: Off</span>
+            <span id="mic-indicator" class="status-badge disconnected">Mic: Off</span>
+        </div>
+    </header>
+
+    <main class="dashboard">
+        <section class="welcome-banner">
+            <h1>Tu camino para dominar el piano</h1>
+            <p>Elige una canción o curso y empieza a practicar interactivamente.</p>
+        </section>
+
+        <section class="categories-section">
+            <h2>Categorías Musicales</h2>
+            <div class="category-tabs">
+                <button class="category-btn active" data-category="all">Todos</button>
+                <button class="category-btn" data-category="clasico">Piano Clásico</button>
+                <button class="category-btn" data-category="pop">Pop Moderno</button>
+                <button class="category-btn" data-category="jazz">Jazz & Blues</button>
+                <button class="category-btn" data-category="soundtracks">Bandas Sonoras</button>
+                <button class="category-btn" data-category="anime">Anime & Juegos</button>
+            </div>
+        </section>
+
+        <section class="songs-section">
+            <div class="songs-grid" id="songs-container">
+                <!-- Se inyecta dinámicamente desde app.js -->
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

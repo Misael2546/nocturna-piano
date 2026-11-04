@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala de Ensayo - PianoFlow</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="studio-body">
+    <header class="studio-header">
+        <button onclick="window.location.href='index.html'" class="btn-back">⬅ Volver</button>
+        <div class="song-info-display">
+            <h2 id="studio-song-title">Cargando...</h2>
+            <p id="studio-song-artist">Artista</p>
+        </div>
+        <div class="studio-controls">
+            <div class="control-group">
+                <label>Velocidad: <span id="bpm-value">100</span> BPM</label>
+                <input type="range" id="bpm-slider" min="40" max="200" value="100">
+            </div>
+            <button id="wait-mode-toggle" class="btn-toggle active">Modo Espera: ON</button>
+        </div>
+        <div class="hardware-status">
+            <span id="studio-midi-indicator" class="status-badge disconnected">MIDI</span>
+            <span id="studio-mic-indicator" class="status-badge disconnected">Mic</span>
+        </div>
+    </header>
+
+    <main class="studio-container">
+        <!-- Visualizador de Notas Estilo Flowkey -->
+        <div class="visualizer-wrapper">
+            <div class="notes-cursor" id="notes-cursor"></div>
+            <canvas id="flowkey-canvas"></canvas>
+        </div>
+
+        <!-- Teclado Virtual de Feedback -->
+        <div class="piano-keyboard-container">
+            <div class="piano-keyboard" id="piano-keyboard">
+                <!-- Teclas generadas por JS -->
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+        // Inicialización específica de la sala de ensayo al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof initStudio === 'function') {
+                initStudio();
+            }
+        });
+    </script>
+</body>
+</html>
