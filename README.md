@@ -1,19 +1,100 @@
-# NOCTURNA — Paquete integrado para GitHub Pages
+# Academia de Piano · Versión completa 3.3
 
-## Contenido
-- `index.html`: explorador moderno, búsqueda y categorías (catálogo demostrativo).
-- `styles.css`, `app.js`: presentación y filtros de la interfaz.
-- `academia.html`: academia interactiva heredada, con módulos de teoría, piano virtual, entrenamiento auditivo y ejercicios.
-- `estudio-midi.html`: estudio MIDI interactivo heredado de la versión 2.0.
-- `tutoriales.html`: 12 lecciones originales con ejercicios, preguntas y registro de estudio.
-- `sw.js`, `manifest.webmanifest`, iconos: instalación PWA y caché local.
+Proyecto PWA estático en español. Incluye la academia, el contenido educativo y el estudio de piano guiado por canciones.
 
-## Instalación
-Descomprimir el ZIP, subir **los archivos** a la raíz del repositorio, activar Settings > Pages > Deploy from a branch > main > /(root). Usar HTTPS.
-Para MIDI USB, conectar un piano compatible y abrir `estudio-midi.html` en Chrome/Edge de escritorio. Autorizar acceso MIDI cuando el navegador lo solicite.
+## Archivos incluidos
 
-## Límites importantes
-Las tres interfaces se integran por navegación; **todavía no constituyen un único motor de estado o un catálogo de partituras compartido**.
-El catálogo de la portada es demostrativo: abrir "Practicar" en esa vista presenta un reproductor visual sin audio ni lectura MIDI. Para captura MIDI real usar **Estudio MIDI**.
-No se incluyen libros PDF de terceros ni partituras protegidas. El motor MIDI y los ejercicios proceden del prototipo previo y no fueron probados con tu instrumento.
-La compatibilidad de audio/MIDI varía por navegador y plataforma. El caché offline funciona tras la primera carga satisfactoria, pero ciertas funciones pueden depender de permisos del navegador.
+- `index.html`: entrada principal para Render y GitHub Pages.
+- `estudio-midi.html`: acceso alternativo a la misma academia completa.
+- `app.js`: contenido, lógica de navegación, curso, repertorio, piano, MIDI y práctica guiada.
+- `styles.css`: interfaz completa, diseño adaptable y sala de práctica horizontal.
+- `manifest.webmanifest`: configuración instalable de la PWA.
+- `sw.js`: caché local y soporte offline del shell de la aplicación.
+- `icon.svg`, `icon-192.png`, `icon-512.png`: íconos de la aplicación.
+- `audio/README.md`: instrucciones para agregar muestras de piano locales.
+
+## Contenido de la academia
+
+- Inicio y recorrido de aprendizaje.
+- Curso de teoría musical de 12 módulos.
+- Laboratorio de piano con teclado virtual y desafíos de lectura.
+- Laboratorio rítmico y metrónomo.
+- Entrenamiento auditivo.
+- Técnica, escalas, acordes y patrones de acompañamiento.
+- Biblioteca de repertorio y prácticas.
+- Seguimiento de progreso, exportación e importación de respaldo.
+- Estudio interactivo con notas descendentes, línea de impacto, práctica por mano, modo espera, velocidad, volumen, teclado virtual y entrada MIDI.
+- Importación de canciones MIDI (`.mid` / `.midi`) y separación inicial de manos por registro.
+
+## Publicar en Render
+
+1. Descomprimí todo el ZIP.
+2. Subí el contenido completo de esta carpeta a un repositorio GitHub.
+3. En Render creá un **Static Site** conectado al repositorio.
+4. Usá `.` como directorio de publicación (Publish Directory).
+5. No necesitás comando de build.
+6. Esperá el deploy y abrí la URL HTTPS.
+
+También se incluye `render.yaml` como configuración de referencia.
+
+## Publicar en GitHub Pages
+
+1. Subí todos los archivos a la raíz del repositorio.
+2. Abrí **Settings → Pages**.
+3. Seleccioná la rama principal y la carpeta `/ (root)`.
+4. Guardá y esperá la publicación.
+
+## Cómo practicar una canción
+
+1. Abrí **Estudio interactivo**.
+2. Elegí una pieza de la biblioteca o importá un MIDI.
+3. Seleccioná `MD`, `MI` o `2 manos`.
+4. Dejá activado `Esperar` para que el reproductor se detenga en cada grupo de notas.
+5. Tocá las notas correctas con el teclado virtual o con un piano MIDI compatible.
+
+En el modo MD, la mano izquierda se reproduce como acompañamiento; en el modo MI, se reproduce la derecha. En `2 manos`, se esperan ambas partes.
+
+## Audio y conectividad
+
+El motor usa Web Audio API y muestras acústicas Salamander. Primero busca archivos en `./audio/` y, si no están, intenta descargarlos desde Tone.js. Por eso, el primer uso de audio requiere conexión. Para uso sin conexión, colocá en `audio/` las muestras indicadas en `audio/README.md`.
+
+La app shell queda disponible offline después de la primera carga HTTPS y de que el service worker complete su caché. El audio remoto no queda garantizado offline.
+
+## MIDI
+
+La entrada Web MIDI depende del navegador, el sistema operativo y el contexto seguro HTTPS. Safari en iPhone/iPad no ofrece Web MIDI de forma nativa; en ese dispositivo se puede practicar con el teclado virtual. La separación automática de manos en un MIDI se basa inicialmente en un umbral de altura, que puede ajustarse desde la interfaz.
+
+## Notas técnicas
+
+- Proyecto sin frameworks ni proceso de compilación.
+- Los datos de progreso se guardan localmente en el navegador.
+- El contenido de repertorio es didáctico; no es un catálogo comercial de Flowkey ni incluye grabaciones o partituras licenciadas de terceros.
+- El modo horizontal se aplica al entrar al estudio; el navegador puede no permitir bloquear físicamente la orientación desde una PWA en todos los dispositivos.
+
+
+## Novedades 3.2 · Modo aprender (estilo Flowkey)
+
+- **Lección guiada**: recorre cada sección de la canción con *mano derecha sola → mano izquierda sola → las dos juntas*. Antes de cada paso muestra una demostración (botón **Escuchar**) y después te espera en modo espera.
+- **Digitación sugerida**: número de dedo (1 = pulgar … 5 = meñique) sobre las notas que caen, en el teclado y en la partitura. Es una sugerencia automática; las piezas pueden definir su propia digitación con `finger` en cada nota.
+- **Partitura sincronizada** (doble pentagrama, botón **Partitura**): resalta el paso actual y cambia de página sola. Derecha en azul, izquierda en verde.
+- **Secciones**: selector para practicar una frase en bucle (tocá ▶ para repetirla).
+- La mano que no practicás se atenúa y suena como acompañamiento.
+- Importación MIDI: si el archivo tiene dos pistas con registros claramente distintos, las manos se separan por pista; si no, por altura.
+- Dos arreglos nuevos: *Cumpleaños feliz* y *Canon en Re*.
+
+
+## Novedades 3.3 · Ritmo, puntuación y pulido visual
+
+- **Partitura con ritmo real:** figuras según la duración (redonda, blanca, negra, corchea, semicorchea y puntillos), líneas de compás y espaciado proporcional al tiempo. Es una notación aproximada a partir de las duraciones de cada pieza; no incluye silencios ni ligaduras.
+- **Puntuación con estrellas:** al terminar una sección o una pieza aparece una pantalla de resultados (1–3 estrellas según la precisión, errores y acciones *Repetir* / *Siguiente*). Se guarda la mejor marca de cada sección y de cada canción.
+- **Racha diaria:** cuenta los días seguidos que completás una práctica.
+- **Visual:** teclado con profundidad y pulsación animada, notas que caen con degradado, estela y destello en la línea de impacto.
+
+
+## Novedades 3.4 · Metrónomo, manos, micrófono y motor de piezas
+
+- **Metrónomo con cuenta regresiva** (🥁): al tocar ▶ hay una cuenta de un compás con número en pantalla y clic acentuado; después el clic acompaña el tempo (respeta velocidad y modo espera).
+- **Manos animadas** (🖐): dos manos sobre el teclado (derecha azul, izquierda verde) que se desplazan a las notas del paso actual; el dedo que toca baja. Usan la digitación de cada pieza.
+- **Micrófono** (🎤): escucha tu piano real y avanza el modo espera cuando oye las notas esperadas (también acordes). Limitaciones: silencia el audio de la app mientras está activo, funciona mejor desde Do3 hacia arriba, necesita HTTPS y permiso del navegador, y solo detecta las notas correctas (no marca errores).
+- **Armar pieza**: panel en la barra lateral del estudio. Melodía `E4/1 G4/1 r/2` (nota/duración en tiempos) + acordes por compás `C | F G7 | Am` + patrón de mano izquierda (bloque, arpegio, Alberti, vals, jazz caminante). También disponible como `buildPiece({...})`.
+- **Repertorio nuevo (9 piezas):** tradicionales y clásicas de dominio público (Greensleeves, Sublime gracia, Cuando los santos, Minueto en Sol) y piezas **originales** en estilo de los 80, 90, actual, jazz y blues. No se incluyen melodías de canciones comerciales.
