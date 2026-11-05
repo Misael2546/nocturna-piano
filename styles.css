@@ -459,3 +459,20 @@ body.studio-fullscreen .orientation-gate {
   .nav::-webkit-scrollbar { display: none; }
   .shell, main { min-width: 0; }
 }
+
+
+/* ===== v3.8 · Visibilidad determinista del aviso de orientación ===== */
+#orientation-gate[hidden] { display:none !important; }
+#orientation-gate:not([hidden]) {
+  position:fixed !important; inset:0 !important; z-index:100000 !important;
+  width:100vw !important; height:100vh !important; height:100dvh !important;
+  box-sizing:border-box !important; align-items:center !important;
+  justify-content:center !important; padding:24px !important;
+  background:rgba(5,13,25,.97) !important; color:#f5f7fb !important;
+}
+@media (max-width:800px) and (orientation:portrait) {
+  #orientation-gate:not([hidden]) { display:flex !important; }
+}
+@media (orientation:landscape) {
+  #orientation-gate:not([hidden]) { display:none !important; }
+}

@@ -143,3 +143,14 @@ Prueba técnica: validar `app.js` y `extras.js` con `node --check` antes de publ
 - Actualizados los identificadores de caché y versiones de recursos a 3.7.0.
 
 Después de publicar, recargá la web. Si seguís viendo la versión anterior en iPhone, cerrá la pestaña y volvé a abrir el sitio; el service worker actualizará los recursos.
+
+
+## Versión 3.8 · Corrección definitiva del aviso vertical
+
+- El aviso de orientación inicia oculto mediante el atributo HTML `hidden`.
+- La navegación JavaScript lo muestra únicamente al entrar en Estudio interactivo desde un móvil en vertical.
+- Al volver a Inicio, Curso u otra sección, el aviso se oculta explícitamente.
+- Se usa el selector `#orientation-gate[hidden]` con prioridad para evitar que reglas CSS anteriores lo vuelvan a mostrar.
+- Se actualizan los recursos y la caché a 3.8.0.
+
+Validación: sintaxis de `app.js` y `extras.js` comprobada. Debe publicarse el ZIP completo y probarse en Safari tras cerrar pestañas anteriores.
