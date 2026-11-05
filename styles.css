@@ -383,3 +383,79 @@ button, [role="button"], .live-key, .studio-white, .studio-black {
 body.studio-fullscreen #studio .finger-guide { flex:0 0 auto; min-height:20px; padding:3px 7px; margin:1px 0 3px; gap:4px 8px; font-size:8px; }
 body.studio-fullscreen #studio .finger-map { font-size:8px; }
 body.studio-fullscreen #studio .engine-instruction { white-space:normal !important; }
+
+
+/* ===== v3.7 · Corrección del aviso de orientación en iPhone ===== */
+/* El aviso nunca debe ocupar espacio ni aparecer en Inicio/Curso. */
+.orientation-gate {
+  display: none !important;
+}
+body.studio-fullscreen .orientation-gate {
+  display: none !important;
+}
+@media (max-width: 800px) and (orientation: portrait) {
+  body.studio-fullscreen .orientation-gate {
+    display: flex !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 100000 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    padding: max(20px, env(safe-area-inset-top)) 22px max(20px, env(safe-area-inset-bottom)) !important;
+    overflow: auto !important;
+    background: rgba(5, 13, 25, .97) !important;
+    color: #f5f7fb !important;
+    text-align: center !important;
+  }
+  body.studio-fullscreen .orientation-card {
+    width: min(100%, 430px) !important;
+    margin: auto !important;
+    padding: 28px 22px !important;
+    border: 1px solid rgba(255,255,255,.14) !important;
+    border-radius: 22px !important;
+    background: linear-gradient(145deg, #1d304b, #0c192b) !important;
+    box-shadow: 0 24px 70px rgba(0,0,0,.4) !important;
+  }
+  body.studio-fullscreen .orientation-card h2 {
+    margin: 12px 0 !important;
+    font-size: clamp(25px, 7vw, 34px) !important;
+    line-height: 1.12 !important;
+    color: #fff !important;
+  }
+  body.studio-fullscreen .orientation-card p {
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    color: #d7e1ef !important;
+  }
+  body.studio-fullscreen .orientation-card .orientation-kicker {
+    font-size: 11px !important;
+    letter-spacing: .14em !important;
+    color: #e4bd70 !important;
+  }
+  body.studio-fullscreen .orientation-hint {
+    display: inline-block !important;
+    margin-top: 12px !important;
+    font-size: 12px !important;
+    color: #aebed2 !important;
+  }
+  body.studio-fullscreen .rotate-symbol {
+    font-size: 54px !important;
+    color: #e0b45c !important;
+  }
+}
+/* Mantener la navegación horizontal utilizable en teléfonos sin ensanchar la página. */
+@media (max-width: 700px) {
+  .nav {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .shell, main { min-width: 0; }
+}

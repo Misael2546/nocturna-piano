@@ -132,3 +132,14 @@ Se conserva el contenido y las funciones de la 3.5 y se añade:
 - La asignación de dedos es una sugerencia automática por registro/contorno, no una digitación editorial validada para toda obra. En pasajes complejos conviene corregirla con digitación docente.
 
 Prueba técnica: validar `app.js` y `extras.js` con `node --check` antes de publicar. El motor requiere pruebas reales de ejecución con un MIDI y teclado físico.
+
+
+## Versión 3.7 · Corrección visual para iPhone
+
+- Corregido el aviso de orientación: ahora permanece oculto en Inicio, Curso y demás secciones.
+- Solo aparece al entrar al estudio interactivo en pantalla completa y con el teléfono en vertical.
+- Se presenta como una capa fija a pantalla completa, sin empujar ni superponer el contenido de la academia.
+- Mejoras de navegación horizontal móvil y ocultación de barras de desplazamiento decorativas.
+- Actualizados los identificadores de caché y versiones de recursos a 3.7.0.
+
+Después de publicar, recargá la web. Si seguís viendo la versión anterior en iPhone, cerrá la pestaña y volvé a abrir el sitio; el service worker actualizará los recursos.

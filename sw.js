@@ -1,4 +1,4 @@
-const CACHE_NAME = "academia-piano-v3-6-0";
+const CACHE_NAME = "academia-piano-v3-7-0";
 const APP_SHELL = [
   "./",
   "./index.html",
